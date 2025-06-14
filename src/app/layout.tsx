@@ -31,7 +31,6 @@ export default async function RootLayout({
 }) {
   const cookieStore = await cookies();
   const activeThemeValue = cookieStore.get('active_theme')?.value;
-  const isScaled = activeThemeValue?.endsWith('-scaled');
 
   return (
     <html lang='en' suppressHydrationWarning>
@@ -52,7 +51,6 @@ export default async function RootLayout({
         className={cn(
           'bg-background overflow-hidden overscroll-none font-sans antialiased',
           activeThemeValue ? `theme-${activeThemeValue}` : '',
-          isScaled ? 'theme-scaled' : '',
           fontVariables
         )}
       >
@@ -65,7 +63,7 @@ export default async function RootLayout({
             disableTransitionOnChange
             enableColorScheme
           >
-            <Providers activeThemeValue={activeThemeValue as string}>
+            <Providers>
               <Toaster />
               {children}
             </Providers>

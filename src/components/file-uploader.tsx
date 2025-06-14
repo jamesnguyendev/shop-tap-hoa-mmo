@@ -115,12 +115,12 @@ export function FileUploader(props: FileUploaderProps) {
   const onDrop = React.useCallback(
     (acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
       if (!multiple && maxFiles === 1 && acceptedFiles.length > 1) {
-        toast.error('Cannot upload more than 1 file at a time');
+        toast.error('Không thể tải hơn 1 tệp cùng một thời điểm');
         return;
       }
 
       if ((files?.length ?? 0) + acceptedFiles.length > maxFiles) {
-        toast.error(`Cannot upload more than ${maxFiles} files`);
+        toast.error(`Không thể tải tệp nhiều hơn: ${maxFiles}`);
         return;
       }
 
@@ -136,7 +136,7 @@ export function FileUploader(props: FileUploaderProps) {
 
       if (rejectedFiles.length > 0) {
         rejectedFiles.forEach(({ file }) => {
-          toast.error(`File ${file.name} was rejected`);
+          toast.error(`Tệp đã bị từ chối ${file.name}`);
         });
       }
 
@@ -146,15 +146,15 @@ export function FileUploader(props: FileUploaderProps) {
         updatedFiles.length <= maxFiles
       ) {
         const target =
-          updatedFiles.length > 0 ? `${updatedFiles.length} files` : `file`;
+          updatedFiles.length > 0 ? `${updatedFiles.length} Nhiều tệp` : `tệp`;
 
         toast.promise(onUpload(updatedFiles), {
-          loading: `Uploading ${target}...`,
+          loading: `Đang tải lên ${target}...`,
           success: () => {
             setFiles([]);
-            return `${target} uploaded`;
+            return `${target} Đã tải`;
           },
-          error: `Failed to upload ${target}`
+          error: `Lỗi tải lên ${target}`
         });
       }
     },
@@ -216,7 +216,7 @@ export function FileUploader(props: FileUploaderProps) {
                   />
                 </div>
                 <p className='text-muted-foreground font-medium'>
-                  Drop the files here
+                  Thả tệp vào đây
                 </p>
               </div>
             ) : (
@@ -229,13 +229,13 @@ export function FileUploader(props: FileUploaderProps) {
                 </div>
                 <div className='space-y-px'>
                   <p className='text-muted-foreground font-medium'>
-                    Drag {`'n'`} drop files here, or click to select files
+                    Bạn có thể thả tệp vào đây hoặc chọn tệp
                   </p>
                   <p className='text-muted-foreground/70 text-sm'>
-                    You can upload
+                    Bạn có thể tải
                     {maxFiles > 1
                       ? ` ${maxFiles === Infinity ? 'multiple' : maxFiles}
-                      files (up to ${formatBytes(maxSize)} each)`
+                      tệp (${formatBytes(maxSize)} cho mỗi lần tải)`
                       : ` a file with ${formatBytes(maxSize)}`}
                   </p>
                 </div>
@@ -304,7 +304,7 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
           className='size-8 rounded-full'
         >
           <IconX className='text-muted-foreground' />
-          <span className='sr-only'>Remove file</span>
+          <span className='sr-only'>Xóa tệp</span>
         </Button>
       </div>
     </div>

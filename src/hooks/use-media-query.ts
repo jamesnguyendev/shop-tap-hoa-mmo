@@ -1,6 +1,8 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 
-export function useMediaQuery() {
+export function useMediaQuery(p0?: string) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {

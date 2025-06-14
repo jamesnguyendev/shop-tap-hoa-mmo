@@ -23,16 +23,16 @@ import {
   IconSettings,
   IconSun,
   IconTrash,
-  IconBrandTwitter,
   IconUser,
   IconUserCircle,
   IconUserEdit,
   IconUserX,
   IconX,
   IconLayoutKanban,
-  IconBrandGithub,
   IconRegistered
 } from '@tabler/icons-react';
+
+import { Crown, FileUser, Flag, ReceiptText, RotateCcw, Star, Store, TicketPercent } from 'lucide-react';
 
 export type Icon = React.ComponentType<IconProps>;
 
@@ -66,7 +66,13 @@ export const Icons = {
   sun: IconSun,
   moon: IconMoon,
   laptop: IconDeviceLaptop,
-  github: IconBrandGithub,
-  twitter: IconBrandTwitter,
-  check: IconCheck
+  check: IconCheck,
+  store: Store,
+  receipt: ReceiptText,
+  reserve: RotateCcw,
+  flag: Flag,
+  reseller: FileUser,
+  review: Star,
+  discount: TicketPercent,
+  rank: Crown
 };

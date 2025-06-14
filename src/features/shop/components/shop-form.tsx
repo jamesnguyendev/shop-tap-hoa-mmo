@@ -20,7 +20,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Product } from '@/constants/mock-api';
+import { Shop } from '@/constants/mock-api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -45,25 +45,38 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: 'Tên sản phẩm phải có ít nhất 2 ký tự.'
   }),
-  category: z.string(),
-  price: z.number(),
   description: z.string().min(10, {
     message: 'Mô tả ít nhất 10 ký tự.'
+  }),
+  descriptionShort: z.string().min(10, {
+    message: 'Mô tả ngắn ít nhất 10 ký tự.'
+  }),
+  business: z.string().min(1, {
+    message: 'Nhập ít nhất 1 ký tự.'
+  }),
+  shop: z.string().min(1, {
+    message: 'Nhập ít nhất 1 ký tự.'
+  }),
+  refund: z.string().min(1, {
+    message: 'Nhập ít nhất 1 ký tự.'
   })
 });
 
-export default function ProductForm({
+export default function ShopForm({
   initialData,
   pageTitle
 }: {
-  initialData: Product | null;
+  initialData?: Shop | null;
   pageTitle: string;
 }) {
   const defaultValues = {
     name: initialData?.name || '',
-    category: initialData?.category || '',
-    price: initialData?.price || 0,
-    description: initialData?.description || ''
+    image: initialData?.photo_url || '',
+    business: initialData?.business || '',
+    shop: initialData?.shop || '',
+    refund: initialData?.refund || '',
+    description: initialData?.description || '',
+    descriptionShort: initialData?.description || ''
   };
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -118,7 +131,7 @@ export default function ProductForm({
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tên sản phẩm</FormLabel>
+                    <FormLabel>Tên gian hàng</FormLabel>
                     <FormControl>
                       <Input placeholder='Nhập tên sản phẩm' {...field} />
                     </FormControl>
@@ -128,27 +141,22 @@ export default function ProductForm({
               />
               <FormField
                 control={form.control}
-                name='category'
+                name='business'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Danh mục</FormLabel>
+                    <FormLabel>Loại hình kinh doanh</FormLabel>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
                       value={field.value[field.value.length - 1]}
                     >
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder='Chọn danh mục' />
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Chọn loại hình kinh doanh' />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='beauty'>Beauty Products</SelectItem>
-                        <SelectItem value='electronics'>Electronics</SelectItem>
-                        <SelectItem value='clothing'>Clothing</SelectItem>
-                        <SelectItem value='home'>Home & Garden</SelectItem>
-                        <SelectItem value='sports'>
-                          Sports & Outdoors
-                        </SelectItem>
+                        <SelectItem value='Bsán'>Bán sản phẩm</SelectItem>
+                        <SelectItem value='âdf'>Dịch vụ</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -157,10 +165,38 @@ export default function ProductForm({
               />
               <FormField
                 control={form.control}
-                name='price'
+                name='shop'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Giá</FormLabel>
+                    <FormLabel>Loại gian hàng</FormLabel>
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
+                      value={field.value[field.value.length - 1]}
+                    >
+                      <FormControl>
+                        <SelectTrigger className='w-full'>
+                          <SelectValue placeholder='Chọn...' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value='beautsy'>Mail</SelectItem>
+                        <SelectItem value='Phần'>Phần mềm</SelectItem>
+                        <SelectItem value='khoản'>Phần khoản</SelectItem>
+                        <SelectItem value='aa'>Phần</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='refund'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Đánh giá hoàn tiền(%) - {"'"}0{"'"}: tắt
+                    </FormLabel>
                     <FormControl>
                       <Input
                         type='number'
@@ -174,6 +210,58 @@ export default function ProductForm({
                 )}
               />
             </div>
+            <div className='space-y-4'>
+              <label className='flex items-start space-x-2'>
+                <input
+                  type='checkbox'
+                  className='text-primary focus:ring-primary mt-1 h-4 w-4 rounded border-gray-300'
+                />
+                <span className='text-sm text-gray-700'>
+                  Bạn có muốn cho reseller bán hàng không?
+                </span>
+              </label>
+
+              <label className='flex items-start space-x-2'>
+                <input
+                  type='checkbox'
+                  className='text-primary focus:ring-primary mt-1 h-4 w-4 rounded border-gray-300'
+                />
+                <span className='text-sm text-gray-700'>
+                  Sản phẩm không trùng lặp (Cam kết sản phẩm chỉ được bán ra 1
+                  lần và duy nhất trên hệ thống)
+                </span>
+              </label>
+
+              <label className='flex items-start space-x-2'>
+                <input
+                  type='checkbox'
+                  className='text-primary focus:ring-primary mt-1 h-4 w-4 rounded border-gray-300'
+                />
+                <span className='text-sm text-gray-700'>
+                  Sử dụng kho hàng riêng (Hàng sẽ không tải trực tiếp lên
+                  TaphoamMMO mà sử dụng API lấy hàng từ kho của bạn)
+                </span>
+              </label>
+            </div>
+
+            <FormField
+              control={form.control}
+              name='descriptionShort'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mô tả ngắn:</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='text'
+                      placeholder='Nhập mô tả ngắn'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name='description'

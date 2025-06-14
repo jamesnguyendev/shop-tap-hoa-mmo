@@ -20,6 +20,25 @@ export type Product = {
   updated_at: string;
 };
 
+export type Shop = {
+  photo_url: string;
+  name: string;
+  kind: string;
+  duplicated: boolean;
+  description: string;
+  descriptionShort: string;
+  created_at: string;
+  id: number;
+  business: string;
+  updated_at: string;
+  price: number;
+  wareHouse: string;
+  reseller: string;
+  refund: string;
+  platform: string;
+  shop: string;
+};
+
 // Mock product data store
 export const fakeProducts = {
   records: [] as Product[], // Holds the list of product objects

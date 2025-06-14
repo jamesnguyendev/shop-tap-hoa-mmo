@@ -3,22 +3,22 @@ import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 import { Heading } from '@/components/ui/heading';
 import { Separator } from '@/components/ui/separator';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
-import ProductForm from '@/features/products/components/product-form';
-import ProductListingPage from '@/features/products/components/product-listing';
+import ShopForm from '@/features/shop/components/shop-form';
+import ShopListingPage from '@/features/shop/components/shop-listing';
 import { searchParamsCache } from '@/lib/searchparams';
 
 import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
 
 export const metadata = {
-  title: 'Tạp Hóa MMO: Sản phẩm'
+  title: 'Tạp Hóa MMO: Gian hàng'
 };
 
 type pageProps = {
   searchParams: Promise<SearchParams>;
 };
 
-export default async function Page(props: pageProps) {
+export default async function Shop(props: pageProps) {
   const searchParams = await props.searchParams;
   searchParamsCache.parse(searchParams);
 
@@ -26,9 +26,9 @@ export default async function Page(props: pageProps) {
     <PageContainer scrollable={false}>
       <div className='flex flex-1 flex-col space-y-4'>
         <div className='flex items-start justify-between'>
-          <Heading title='Sản phẩm' description='Quản lý sản phẩm ' />
+          <Heading title='Gian hàng' description='Quản lý gian hàng ' />
           <FormDrawerWrapper>
-            <ProductForm initialData={null} pageTitle='Thêm mới sản phẩm' />
+            <ShopForm initialData={null} pageTitle='Thêm mới gian hàng' />
           </FormDrawerWrapper>
         </div>
         <Separator />
@@ -37,9 +37,10 @@ export default async function Page(props: pageProps) {
             <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2} />
           }
         >
-          <ProductListingPage />
+          <ShopListingPage />
         </Suspense>
       </div>
     </PageContainer>
   );
+  // return <ShopViewPage />;
 }

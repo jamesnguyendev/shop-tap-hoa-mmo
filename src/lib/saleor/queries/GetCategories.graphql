@@ -1,0 +1,13 @@
+query GetCategories {
+  categories(first: 10) {
+    edges {
+      node {
+        name
+        backgroundImage {
+          url
+          alt
+        }
+      }
+    }
+  }
+}

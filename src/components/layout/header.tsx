@@ -3,7 +3,7 @@ import { SidebarTrigger } from '../ui/sidebar';
 import { Separator } from '../ui/separator';
 import SearchInput from '../search-input';
 import { UserNav } from './user-nav';
- import { ModeToggle } from './ThemeToggle/theme-toggle';
+import { ModeToggle } from './ThemeToggle/theme-toggle';
 
 export default function Header() {
   return (
@@ -20,7 +20,7 @@ export default function Header() {
         </div>
         <UserNav />
         <ModeToggle />
-       </div>
+      </div>
     </header>
   );
 }

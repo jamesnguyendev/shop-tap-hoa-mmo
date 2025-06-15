@@ -44,6 +44,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import * as React from 'react';
 import { Icons } from '../icons';
 import { OrgSwitcher } from '../org-switcher';
+import { signOut, useSession } from 'next-auth/react';
+import { handleLogout } from '@/lib/utils';
 
 export const company = {
   name: 'Acme Inc',
@@ -54,7 +56,15 @@ export const company = {
 export default function AppSidebar() {
   const pathname = usePathname();
   const router = useRouter();
+  const { data: session } = useSession();
 
+  const handleClickLogout = () => {
+    if (session?.provider === 'keycloak') {
+      handleLogout(session);
+    } else {
+      signOut({ redirect: false, callbackUrl: '/' });
+    }
+  };
   return (
     <Sidebar collapsible='icon'>
       <SidebarHeader>
@@ -177,7 +187,7 @@ export default function AppSidebar() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleClickLogout}>
                   <IconLogout className='mr-2 h-4 w-4' />
                   {/* <SignOutButton redirectUrl='/auth/sign-in' /> */}
                   {/* User is going to display this */}Đăng xuất

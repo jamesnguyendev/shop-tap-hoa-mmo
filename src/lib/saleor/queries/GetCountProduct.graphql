@@ -1,0 +1,5 @@
+query GetCount($productTypes: [ID!]) {
+  products(first: 100, filter: { productTypes: $productTypes }) {
+    totalCount
+  }
+}

@@ -9,11 +9,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { handleLogout } from '@/lib/utils';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export function UserNav() {
   const router = useRouter();
+  const { data: session } = useSession();
 
+  const handleClickLogout = () => {
+    if (session?.provider === 'keycloak') {
+      handleLogout(session);
+    } else {
+      signOut();
+    }
+  };
   // if (user) {
   return (
     <DropdownMenu>
@@ -34,8 +44,7 @@ export function UserNav() {
         <DropdownMenuLabel className='font-normal'>
           <div className='flex flex-col space-y-1'>
             <p className='text-sm leading-none font-medium'>
-              {/* {user.fullName} */}
-              Teo nguyen
+              {session?.user?.name || 'Chưa xác định'}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -48,7 +57,7 @@ export function UserNav() {
           <DropdownMenuItem>Cài đặt</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleClickLogout}>
           {/* <SignOutButton redirectUrl='/auth/sign-in' /> */}
           {/* Sign Out Button display here */}Đăng xuất
         </DropdownMenuItem>

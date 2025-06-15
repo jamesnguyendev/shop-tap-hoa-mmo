@@ -1,0 +1,12 @@
+query GetPageByPageType($pageTypes: [ID!]) {
+  pages(first: 10, filter: { pageTypes: $pageTypes }) {
+    edges {
+      node {
+        title
+        content
+        created
+        slug
+      }
+    }
+  }
+}

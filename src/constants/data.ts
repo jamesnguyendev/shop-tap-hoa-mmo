@@ -30,6 +30,14 @@ export const navItems: NavItem[] = [
     items: [] // No child items
   },
   {
+    title: 'Danh mục',
+    url: '/dashboard/category',
+    icon: 'category',
+    shortcut: ['p', 'c'],
+    isActive: false,
+    items: [] // No child items
+  },
+  {
     title: 'Tài khoản',
     url: '#', // Placeholder as there is no direct link for the parent
     icon: 'billing',

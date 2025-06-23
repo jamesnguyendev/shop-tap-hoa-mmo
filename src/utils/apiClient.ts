@@ -68,7 +68,28 @@ export async function postRequest<T = unknown>(
     const err = error as AxiosError<{ message: string }>;
     const errMessage =
       err.response?.data.message || 'Fail to Post Request data';
+    throw new Error(errMessage);
+  }
+}
 
+export async function getRequest<T = unknown>(
+  url: string,
+  config?: AxiosRequestConfig
+): Promise<T> {
+  try {
+    const response = await axios.get<T>(url, {
+      headers: {
+        Accept: 'application/json',
+        ...(config?.headers || {})
+      },
+      params: config?.params,
+      ...config
+    });
+    return response.data;
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
+    const errMessage =
+      err.response?.data?.message || 'Fail to Get Request data';
     throw new Error(errMessage);
   }
 }

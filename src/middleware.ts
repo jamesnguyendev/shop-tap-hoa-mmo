@@ -13,7 +13,6 @@ export async function middleware(req: NextRequest) {
   if (!token && !isAuthPage) {
     const loginUrl = new URL('/auth/sign-in', req.url);
     loginUrl.searchParams.set('callbackUrl', pathname);
-    loginUrl.searchParams.set('from', pathname);
     return NextResponse.redirect(loginUrl);
   }
 

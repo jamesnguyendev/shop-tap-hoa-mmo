@@ -32,7 +32,17 @@ import {
   IconRegistered
 } from '@tabler/icons-react';
 
-import { Crown, FileUser, Flag, ReceiptText, RotateCcw, Star, Store, TicketPercent } from 'lucide-react';
+import {
+  Crown,
+  FileUser,
+  Flag,
+  ReceiptText,
+  RotateCcw,
+  Star,
+  Store,
+  TicketPercent,
+  WalletCards
+} from 'lucide-react';
 
 export type Icon = React.ComponentType<IconProps>;
 
@@ -74,5 +84,6 @@ export const Icons = {
   reseller: FileUser,
   review: Star,
   discount: TicketPercent,
-  rank: Crown
+  rank: Crown,
+  category: WalletCards
 };

@@ -23,7 +23,7 @@ import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Xác thực | Đăng nhập',
-  description: 'Biểu mẫu xác thực được xây dựng bằng các thành phần.'
+  description: 'Trang đăng nhập cho quản trị viên.'
 };
 
 const formSchema = z.object({
@@ -43,8 +43,8 @@ export default function SignInViewPage() {
   const [loading, setLoading] = useState(false);
 
   const defaultValues = {
-    email: '',
-    password: ''
+    email: 'phi@gmail.com',
+    password: 'phi123'
   };
 
   const form = useForm<UserFormValue>({
@@ -155,7 +155,7 @@ export default function SignInViewPage() {
             </div>
             <Button
               disabled={loading}
-              className='mt-2 ml-auto disabled:cursor-not-allowed w-full cursor-pointer py-5'
+              className='mt-2 ml-auto w-full cursor-pointer py-5 disabled:cursor-not-allowed'
               type='submit'
             >
               {loading ? 'Đang xử lý...' : 'Đăng nhập'}

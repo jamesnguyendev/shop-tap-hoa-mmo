@@ -1,5 +1,4 @@
 import { postRequest } from '@/utils/apiClient';
-import { log } from 'console';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {

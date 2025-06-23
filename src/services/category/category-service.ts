@@ -1,7 +1,7 @@
 import { authOptions } from '@/lib/auth/authOptions';
 import { getRequest } from '@/utils/apiClient';
-import { faker } from '@faker-js/faker';
-import { matchSorter } from 'match-sorter'; // For filtering
+// import { faker } from '@faker-js/faker';
+// import { matchSorter } from 'match-sorter'; // For filtering
 import { getServerSession } from 'next-auth';
 
 export const delay = (ms: number) =>

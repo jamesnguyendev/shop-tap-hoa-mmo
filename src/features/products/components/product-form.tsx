@@ -12,15 +12,15 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue
+// } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Product } from '@/constants/mock-api';
+import { DetailItem } from '@/services/product/product-detail-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -45,26 +45,25 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: 'Tên sản phẩm phải có ít nhất 2 ký tự.'
   }),
+  description: z.string().optional(),
   category: z.string(),
-  price: z.number(),
-  description: z.string().min(10, {
-    message: 'Mô tả ít nhất 10 ký tự.'
-  })
+  price: z.number()
 });
 
 export default function ProductForm({
   initialData,
   pageTitle
 }: {
-  initialData: Product | null;
+  initialData: DetailItem | null;
   pageTitle: string;
 }) {
   const defaultValues = {
     name: initialData?.name || '',
-    category: initialData?.category || '',
-    price: initialData?.price || 0,
-    description: initialData?.description || ''
+    category: initialData?.category?.name || '',
+    price: initialData?.price || 0
   };
+
+  console.log('initialData', defaultValues);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -126,7 +125,7 @@ export default function ProductForm({
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name='category'
                 render={({ field }) => (
@@ -134,7 +133,7 @@ export default function ProductForm({
                     <FormLabel>Danh mục</FormLabel>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value[field.value.length - 1]}
+                      value={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -142,7 +141,7 @@ export default function ProductForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='beauty'>Beauty Products</SelectItem>
+                        <SelectItem value='beauty'>Bu</SelectItem>
                         <SelectItem value='electronics'>Electronics</SelectItem>
                         <SelectItem value='clothing'>Clothing</SelectItem>
                         <SelectItem value='home'>Home & Garden</SelectItem>
@@ -154,7 +153,7 @@ export default function ProductForm({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <FormField
                 control={form.control}
                 name='price'
@@ -192,7 +191,7 @@ export default function ProductForm({
               )}
             />
             <Button type='submit' className='dark:text-black'>
-              Thêm
+              Xác nhận
             </Button>
           </form>
         </Form>

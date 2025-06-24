@@ -73,22 +73,11 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Đơn hàng',
-    url: '#',
+    url: '/dashboard/order',
     icon: 'receipt',
     shortcut: ['p', 'o'],
     isActive: false,
-    items: [
-      {
-        title: 'Sản phẩm',
-        url: '/dashboard/order/product',
-        shortcut: ['s', 'p']
-      },
-      {
-        title: 'Dịch vụ',
-        url: '/dashboard/order/service',
-        shortcut: ['d', 'v']
-      }
-    ]
+    items: []
   },
   {
     title: 'Đặt trước',

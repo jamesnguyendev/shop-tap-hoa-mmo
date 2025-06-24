@@ -1,23 +1,26 @@
 'use client';
-import { Badge } from '@/components/ui/badge';
+
 import { DataTableColumnHeader } from '@/components/ui/table/data-table-column-header';
 import { Product } from '@/constants/data';
 import { Column, ColumnDef } from '@tanstack/react-table';
-import { CheckCircle2, Text, XCircle } from 'lucide-react';
-import Image from 'next/image';
+import {  Text } from 'lucide-react';
 import { CellAction } from './cell-action';
-import { CATEGORY_OPTIONS } from './options';
+import { ProductItem } from '@/services/product/product-service';
+import Image from 'next/image';
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<ProductItem>[] = [
   {
-    accessorKey: 'photo_url',
+    accessorKey: 'image',
     header: 'Hình',
     cell: ({ row }) => {
+      const product = row.original as ProductItem;
+      const imageURL = product.image?.url || '';
+      if (!imageURL) return null;
       return (
         <div className='relative aspect-square'>
           <Image
-            src={row.getValue('photo_url')}
-            alt={row.getValue('name')}
+            src={imageURL}
+            alt={product.name}
             fill
             className='rounded-lg'
           />
@@ -25,13 +28,13 @@ export const columns: ColumnDef<Product>[] = [
       );
     },
     meta: {
-      label: 'Hình',
+      label: 'Hình'
     }
   },
   {
     id: 'name',
     accessorKey: 'name',
-    header: ({ column }: { column: Column<Product, unknown> }) => (
+    header: ({ column }: { column: Column<ProductItem, unknown> }) => (
       <DataTableColumnHeader column={column} title='Tên sản phẩm' />
     ),
     cell: ({ cell }) => <div>{cell.getValue<Product['name']>()}</div>,
@@ -44,46 +47,43 @@ export const columns: ColumnDef<Product>[] = [
     enableColumnFilter: true
   },
   {
-    id: 'category',
-    accessorKey: 'category',
-    header: ({ column }: { column: Column<Product, unknown> }) => (
-      <DataTableColumnHeader column={column} title='Danh mục' />
-    ),
-    cell: ({ cell }) => {
-      const status = cell.getValue<Product['category']>();
-      const Icon = status === 'active' ? CheckCircle2 : XCircle;
-
-      return (
-        <Badge variant='outline' className='capitalize'>
-          <Icon />
-          {status}
-        </Badge>
-      );
-    },
-    enableColumnFilter: true,
+    accessorKey: 'rating',
+    header: 'Đánh giá',
+    cell: ({ row }) => row.getValue('rating') || '_',
     meta: {
-      label: 'Danh mục',
-      variant: 'multiSelect',
-      options: CATEGORY_OPTIONS
+      label: 'Đánh giá'
     }
   },
   {
     accessorKey: 'price',
     header: 'Giá',
+    cell: ({ row }) => `${row.getValue('price') || '_'}  ₫`,
     meta: {
       label: 'Giá'
     }
   },
   {
-    accessorKey: 'description',
-    header: 'Mô tả',
+    accessorKey: 'category',
+    header: 'Danh mục',
+    cell: ({ row }) => {
+      const category = row.getValue('category') as ProductItem['category'];
+      return category?.name ?? '—';
+    },
     meta: {
-      label: 'Mô tả'
+      label: 'Danh mục'
     }
   },
-
+  {
+    accessorKey: 'isAvailable',
+    header: 'Tình trạng',
+    cell: ({ row }) => (row.getValue('isAvailable') ? 'Còn hàng' : 'Hết hàng'),
+    meta: {
+      label: 'Tình trạng'
+    }
+  },
   {
     id: 'actions',
+    header: 'Thao tác',
     cell: ({ row }) => <CellAction data={row.original} />
   }
 ];

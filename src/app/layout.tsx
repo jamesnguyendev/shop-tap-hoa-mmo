@@ -1,6 +1,5 @@
 import Providers from '@/components/layout/providers';
 import { Toaster } from '@/components/ui/sonner';
-// import { fontVariables } from '@/lib/font';
 import ThemeProvider from '@/components/layout/ThemeToggle/theme-provider';
 import { cn } from '@/lib/utils';
 import type { Metadata, Viewport } from 'next';
@@ -10,6 +9,7 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
 import './theme.css';
 import SessionProviderWrapper from '@/components/layout/session-provider-wrapper';
+import SessionWatcher from '@/components/layout/SessionWatcher';
 
 const META_THEME_COLORS = {
   light: '#ffffff',
@@ -52,11 +52,11 @@ export default async function RootLayout({
         className={cn(
           'bg-background overflow-hidden overscroll-none font-sans antialiased',
           activeThemeValue ? `theme-${activeThemeValue}` : ''
-          // fontVariables
         )}
       >
         <SessionProviderWrapper>
           <NextTopLoader showSpinner={false} color='var(--primary)' />
+          <SessionWatcher />
           <NuqsAdapter>
             <ThemeProvider
               attribute='class'

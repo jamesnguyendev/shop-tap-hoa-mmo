@@ -24,7 +24,7 @@ export function UserNav() {
       signOut();
     }
   };
-  // if (user) {
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -32,7 +32,7 @@ export function UserNav() {
           variant='ghost'
           className='bg-primary text-card relative h-8 w-8 rounded-full'
         >
-          {/* <UserAvatarProfile user={user} /> */}p
+          {session?.user?.name?.charAt(0).toUpperCase() || ''}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
@@ -58,11 +58,9 @@ export function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleClickLogout}>
-          {/* <SignOutButton redirectUrl='/auth/sign-in' /> */}
-          {/* Sign Out Button display here */}Đăng xuất
+          Đăng xuất
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
-  // }
 }

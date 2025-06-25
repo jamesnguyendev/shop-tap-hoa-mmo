@@ -17,7 +17,7 @@ export const columns: ColumnDef<OrderItem>[] = [
   },
   {
     accessorKey: 'created',
-    header: 'Ngày tạo',
+    header: 'Ngày mua',
     cell: ({ row }) => {
       const created = row.getValue('created');
       const value = typeof created === 'string' ? created : '';
@@ -34,29 +34,7 @@ export const columns: ColumnDef<OrderItem>[] = [
       }).format(date);
     },
     meta: {
-      label: 'Ngày tạo'
-    }
-  },
-  {
-    accessorKey: 'updatedAt',
-    header: 'Ngày cập nhật',
-    cell: ({ row }) => {
-      const updatedAt = row.getValue('updatedAt');
-      const value = typeof updatedAt === 'string' ? updatedAt : '';
-      if (!value) return '_';
-
-      const date = new Date(value);
-
-      return new Intl.DateTimeFormat('vi-VN', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }).format(date);
-    },
-    meta: {
-      label: 'Ngày cập nhật'
+      label: 'Ngày mua'
     }
   },
   {

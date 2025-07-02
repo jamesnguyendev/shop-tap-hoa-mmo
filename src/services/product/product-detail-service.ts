@@ -16,6 +16,7 @@ export type DetailItem = {
   rating: number | '';
   isAvailable: boolean | null;
   price: number | '';
+  description: string;
 };
 
 export type DetailResponse = {

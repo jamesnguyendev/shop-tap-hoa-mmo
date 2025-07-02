@@ -72,6 +72,28 @@ export async function postRequest<T = unknown>(
   }
 }
 
+export async function putRequest<T = unknown>(
+  url: string,
+  data: unknown,
+  config?: AxiosRequestConfig
+): Promise<T> {
+  try {
+    const response = await axios.put<T>(url, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        ...config?.headers
+      },
+      ...config
+    });
+    return response.data;
+  } catch (error: unknown) {
+    const err = error as AxiosError<{ message: string }>;
+    const errMessage = err.response?.data.message || 'Fail to PUT Request data';
+    throw new Error(errMessage);
+  }
+}
+
 export async function getRequest<T = unknown>(
   url: string,
   config?: AxiosRequestConfig

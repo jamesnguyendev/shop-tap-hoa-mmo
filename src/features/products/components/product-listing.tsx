@@ -1,12 +1,14 @@
 // import { Product } from '@/constants/data';
 // import { fakeProducts } from '@/constants/mock-api';
 // import { searchParamsCache } from '@/lib/searchparams';
+import { getServerSession } from 'next-auth';
 import { ProductTable } from './product-tables';
 import { columns } from './product-tables/columns';
 import {
   getProductService,
   ProductItem
 } from '@/services/product/product-service';
+import { authOptions } from '@/lib/auth/authOptions';
 
 type ProductListingPage = {};
 
@@ -23,8 +25,9 @@ export default async function ProductListingPage({}: ProductListingPage) {
   //   ...(search && { search }),
   //   ...(categories && { categories: categories })
   // };
+  const session = await getServerSession(authOptions);
 
-  const data = await getProductService();
+  const data = await getProductService(session?.accessToken);
 
   const total = data.total;
   const dataProducts: ProductItem[] = data.products;

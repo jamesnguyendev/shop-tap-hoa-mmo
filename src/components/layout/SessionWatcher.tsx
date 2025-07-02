@@ -17,10 +17,8 @@ const SessionWatcher = () => {
         } else {
           signOut();
         }
-
-        clearInterval(intervalId);
       },
-      24 * 60 * 60 * 1000
+      2 * 60 * 60 * 1000
     );
 
     return () => clearInterval(intervalId);

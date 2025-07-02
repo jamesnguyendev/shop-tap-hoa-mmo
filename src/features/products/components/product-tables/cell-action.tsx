@@ -12,11 +12,11 @@ import {
 import { ProductItem } from '@/services/product/product-service';
 import { IconEdit, IconDotsVertical, IconTrash } from '@tabler/icons-react';
 import { useState } from 'react';
-import ProductForm from '../product-form';
 import { useSession } from 'next-auth/react';
-import {
-   getProductDetailService
-} from '@/services/product/product-detail-service';
+import { getProductDetailService } from '@/services/product/product-detail-service';
+import ProductForm from '../forms/product-form';
+import CreateVariant from '../forms/CreateVariant';
+import { PlusCircle } from 'lucide-react';
 
 interface CellActionProps {
   data: ProductItem;
@@ -29,7 +29,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const id = data.id;
   const { data: session } = useSession();
 
-  const handleClick = async () => {
+  const handleDetail = async () => {
     if (!session?.accessToken) return;
     const data = await getProductDetailService(session.accessToken, id);
     setProducts(data);
@@ -56,10 +56,21 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
           <DropdownMenuItem
             onSelect={(e) => e.preventDefault()}
-            onClick={handleClick}
+            onClick={handleDetail}
           >
             <FormDrawerWrapper icon={<IconEdit />} triggerLabel='Sửa'>
-              <ProductForm initialData={products} pageTitle='Sửa sản phẩm' />
+              <ProductForm initialData={products} pageTitle='Sửa sản phẩm' image />
+            </FormDrawerWrapper>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleDetail}
+            onSelect={(e) => e.preventDefault()}
+          >
+            <FormDrawerWrapper
+              icon={<PlusCircle />}
+              triggerLabel='Tạo biến thể'
+            >
+              <CreateVariant id={products?.id} pageTitle='Tạo biến thể' />
             </FormDrawerWrapper>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>

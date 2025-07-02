@@ -5,6 +5,8 @@ import {
   getCategoryService
 } from '@/services/category/category-service';
 import { columns } from './category-tables/columns';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/auth/authOptions';
 
 type CategoryListingPage = {};
 
@@ -20,8 +22,9 @@ export default async function CategoryListingPage({}: CategoryListingPage) {
   //   ...(search && { search }),
   //   ...(categories && { categories: categories })
   // };
+  const session = await getServerSession(authOptions);
 
-  const data = await getCategoryService();
+  const data = await getCategoryService(session?.accessToken);
 
   const totalCategories = data.total;
   const dataCategories: CategoryItem[] = data.categories;

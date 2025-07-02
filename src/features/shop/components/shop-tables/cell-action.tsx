@@ -1,5 +1,6 @@
 'use client';
 import { AlertModal } from '@/components/modal/alert-modal';
+import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -8,19 +9,31 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Product } from '@/constants/data';
+import { ProductItem } from '@/services/product/product-service';
 import { IconEdit, IconDotsVertical, IconTrash } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { getProductDetailService } from '@/services/product/product-detail-service';
+import CreateVariant from '../forms/CreateVariant';
+import { PlusCircle } from 'lucide-react';
+import ShopForm from '../forms/shop-form';
 
 interface CellActionProps {
-  data: Product;
+  data: ProductItem;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading] = useState(false);
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const [products, setProducts] = useState<any>();
+  const id = data.id;
+  const { data: session } = useSession();
+
+  const handleDetail = async () => {
+    if (!session?.accessToken) return;
+    const data = await getProductDetailService(session.accessToken, id);
+    setProducts(data);
+  };
 
   const onConfirm = async () => {};
 
@@ -41,11 +54,24 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Thao tác</DropdownMenuLabel>
-
           <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/product/${data.id}`)}
+            onSelect={(e) => e.preventDefault()}
+            onClick={handleDetail}
           >
-            <IconEdit className='mr-2 h-4 w-4' /> Sửa
+            <FormDrawerWrapper icon={<IconEdit />} triggerLabel='Sửa'>
+              <ShopForm initialData={products} pageTitle='Sửa sản phẩm' image />
+            </FormDrawerWrapper>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleDetail}
+            onSelect={(e) => e.preventDefault()}
+          >
+            <FormDrawerWrapper
+              icon={<PlusCircle />}
+              triggerLabel='Tạo biến thể'
+            >
+              <CreateVariant id={products?.id} pageTitle='Tạo biến thể' />
+            </FormDrawerWrapper>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <IconTrash className='mr-2 h-4 w-4' /> Xóa

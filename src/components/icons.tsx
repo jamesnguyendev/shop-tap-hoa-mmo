@@ -36,6 +36,7 @@ import {
   Crown,
   FileUser,
   Flag,
+  MessageCircle,
   ReceiptText,
   RotateCcw,
   Star,
@@ -81,9 +82,7 @@ export const Icons = {
   receipt: ReceiptText,
   reserve: RotateCcw,
   flag: Flag,
-  reseller: FileUser,
   review: Star,
-  discount: TicketPercent,
-  rank: Crown,
-  category: WalletCards
+  category: WalletCards,
+  chat: MessageCircle
 };

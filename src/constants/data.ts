@@ -22,6 +22,14 @@ export const navItems: NavItem[] = [
     items: [] // Empty array as there are no child items for Dashboard
   },
   {
+    title: 'Đơn hàng',
+    url: '/dashboard/order',
+    icon: 'receipt',
+    shortcut: ['p', 'o'],
+    isActive: false,
+    items: []
+  },
+  {
     title: 'Sản phẩm',
     url: '/dashboard/product',
     icon: 'product',
@@ -29,40 +37,14 @@ export const navItems: NavItem[] = [
     isActive: false,
     items: [] // No child items
   },
-  {
-    title: 'Danh mục',
-    url: '/dashboard/category',
-    icon: 'category',
-    shortcut: ['p', 'c'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Tài khoản',
-    url: '#', // Placeholder as there is no direct link for the parent
-    icon: 'billing',
-    isActive: false,
-    items: [
-      {
-        title: 'Hồ sơ',
-        url: '/dashboard/profile',
-        icon: 'userPen',
-        shortcut: ['m', 'm']
-      },
-      {
-        title: 'Đăng nhập',
-        shortcut: ['l', 'l'],
-        url: '/auth/sign-in',
-        icon: 'login'
-      },
-      {
-        title: 'Đăng ký',
-        shortcut: ['l', 'o'],
-        url: '/auth/sign-up',
-        icon: 'logup'
-      }
-    ]
-  },
+  // {
+  //   title: 'Danh mục',
+  //   url: '/dashboard/category',
+  //   icon: 'category',
+  //   shortcut: ['p', 'c'],
+  //   isActive: false,
+  //   items: [] // No child items
+  // },
   {
     title: 'Gian hàng',
     url: '/dashboard/shop',
@@ -72,60 +54,24 @@ export const navItems: NavItem[] = [
     items: [] // No child items
   },
   {
-    title: 'Đơn hàng',
-    url: '/dashboard/order',
-    icon: 'receipt',
-    shortcut: ['p', 'o'],
+    title: 'Chăm sóc khách hàng',
+    url: '#', // Placeholder as there is no direct link for the parent
+    icon: 'billing',
     isActive: false,
-    items: []
-  },
-  {
-    title: 'Đặt trước',
-    url: '/dashboard/reorder',
-    icon: 'reserve',
-    shortcut: ['p', 'r'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Khiếu nại',
-    url: '/dashboard/complaint',
-    icon: 'flag',
-    shortcut: ['p', 'f'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Reseller',
-    url: '/dashboard/reseller',
-    icon: 'reseller',
-    shortcut: ['r', 'r'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Đánh giá',
-    url: '/dashboard/review',
-    icon: 'review',
-    shortcut: ['r', 'v'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Mã giảm giá',
-    url: '/dashboard/discount',
-    icon: 'discount',
-    shortcut: ['d', 't'],
-    isActive: false,
-    items: [] // No child items
-  },
-  {
-    title: 'Gian hàng Top 1',
-    url: '/dashboard/rank',
-    icon: 'rank',
-    shortcut: ['r', 'k'],
-    isActive: false,
-    items: [] // No child items
+    items: [
+      {
+        title: 'Quản lý chat',
+        shortcut: ['l', 'l'],
+        url: '/dashboard/chat',
+        icon: 'chat'
+      },
+      {
+        title: 'Quản lý đánh giá',
+        url: '/dashboard/review',
+        icon: 'review',
+        shortcut: ['r', 'v']
+      }
+    ]
   }
 ];
 

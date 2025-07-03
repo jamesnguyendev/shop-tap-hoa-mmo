@@ -33,13 +33,11 @@ import {
 } from '@/services/category/category-service';
 import { createProduct } from '@/services/product/product-service';
 import { toast } from 'sonner';
-import { ShopItem } from '@/services/shop/shop-service';
 import {
   productSchemaWithImage,
   productSchemaWithoutImage
 } from '@/schemas/product/product-schema';
 import Variants from './Variants';
-import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 
 export default function ShopForm({
   initialData,
@@ -51,8 +49,6 @@ export default function ShopForm({
   pageTitle: string;
 }) {
   const { data: session } = useSession();
-
-  console.log(initialData);
 
   const [category, setCategory] = useState<CategoryItem[]>([]);
 
@@ -230,9 +226,6 @@ export default function ShopForm({
               >
                 {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
               </Button>
-              <FormDrawerWrapper>
-                <ShopForm initialData={null} pageTitle='Thêm mới' />
-              </FormDrawerWrapper>
             </div>
           </form>
         </Form>

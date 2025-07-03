@@ -66,10 +66,12 @@ const CreateVariant = ({
     try {
       await createVariant(id, data, session?.accessToken);
       form.reset();
+      toast.success('Tạo biến thể thành công');
+      window.location.reload();
     } catch (error) {
       console.log('req', error);
+      toast.error('Tạo biến thể thất bại');
     }
-    toast.success('Tạo biến thể thành công');
   }
 
   return (

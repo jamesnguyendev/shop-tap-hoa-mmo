@@ -45,7 +45,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/product/${data.id}`)}
           >
-            <IconEdit className='mr-2 h-4 w-4' /> Sửa
+            <IconEdit className='mr-2 h-4 w-4' /> Cập nhật
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <IconTrash className='mr-2 h-4 w-4' /> Xóa

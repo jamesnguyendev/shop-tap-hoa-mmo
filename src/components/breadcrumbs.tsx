@@ -2,14 +2,23 @@
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator
 } from '@/components/ui/breadcrumb';
 import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
 import { IconSlash } from '@tabler/icons-react';
+import Link from 'next/link';
 import { Fragment } from 'react';
+
+const decodeId = (encodedId: string) => {
+  try {
+    const decoded = atob(encodedId); // "Product:272"
+    return decoded.split(':')[1]; // lấy "272"
+  } catch {
+    return encodedId;
+  }
+};
 
 export function Breadcrumbs() {
   const items = useBreadcrumbs();
@@ -18,12 +27,12 @@ export function Breadcrumbs() {
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className='*:hover:cursor-pointer *:hover:underline'>
         {items.map((item, index) => (
           <Fragment key={item.title}>
             {index !== items.length - 1 && (
               <BreadcrumbItem className='hidden md:block'>
-                <BreadcrumbLink href={item.link}>{item.title}</BreadcrumbLink>
+                <Link href={item.link}>{item.title}</Link>
               </BreadcrumbItem>
             )}
             {index < items.length - 1 && (
@@ -32,7 +41,7 @@ export function Breadcrumbs() {
               </BreadcrumbSeparator>
             )}
             {index === items.length - 1 && (
-              <BreadcrumbPage>{item.title}</BreadcrumbPage>
+              <BreadcrumbPage>{decodeId(item.title)}</BreadcrumbPage>
             )}
           </Fragment>
         ))}

@@ -8,30 +8,42 @@ type BreadcrumbItem = {
   link: string;
 };
 
-// This allows to add custom title as well
 const routeMapping: Record<string, BreadcrumbItem[]> = {
   '/dashboard': [{ title: 'Dashboard', link: '/dashboard' }],
-  '/dashboard/employee': [
-    { title: 'Dashboard', link: '/dashboard' },
-    { title: 'Employee', link: '/dashboard/employee' }
+  '/dashboard/overview': [
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Tổng quan', link: '/dashboard/overview' }
+  ],
+  '/dashboard/order': [
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Đơn hàng', link: '/dashboard/order' }
   ],
   '/dashboard/product': [
-    { title: 'Dashboard', link: '/dashboard' },
-    { title: 'Product', link: '/dashboard/product' }
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Sản phẩm', link: '/dashboard/product' }
+  ],
+  '/dashboard/shop': [
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Gian hàng', link: '/dashboard/shop' }
+  ],
+  '/dashboard/chat': [
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Trò chuyện', link: '/dashboard/chat' }
+  ],
+  '/dashboard/review': [
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Đánh giá', link: '/dashboard/review' }
   ]
-  // Add more custom mappings as needed
 };
 
 export function useBreadcrumbs() {
   const pathname = usePathname();
 
   const breadcrumbs = useMemo(() => {
-    // Check if we have a custom mapping for this exact path
     if (routeMapping[pathname]) {
       return routeMapping[pathname];
     }
 
-    // If no exact match, fall back to generating breadcrumbs from the path
     const segments = pathname.split('/').filter(Boolean);
     return segments.map((segment, index) => {
       const path = `/${segments.slice(0, index + 1).join('/')}`;

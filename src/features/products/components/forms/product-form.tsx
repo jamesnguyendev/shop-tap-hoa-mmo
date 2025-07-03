@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { DetailItem } from '@/services/product/product-detail-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -34,6 +33,7 @@ import {
 } from '@/services/category/category-service';
 import { createProduct } from '@/services/product/product-service';
 import { toast } from 'sonner';
+import { ShopItem } from '@/services/shop/shop-service';
 
 const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = [
@@ -72,7 +72,7 @@ export default function ProductForm({
   pageTitle,
   image
 }: {
-  initialData: DetailItem | null;
+  initialData: ShopItem | null;
   image?: boolean;
   pageTitle: string;
 }) {

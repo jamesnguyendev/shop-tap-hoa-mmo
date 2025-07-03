@@ -1,19 +1,19 @@
 'use client';
 
 import { DataTableColumnHeader } from '@/components/ui/table/data-table-column-header';
-import { Product } from '@/constants/data';
+import { Shop } from '@/constants/data';
 import { Column, ColumnDef } from '@tanstack/react-table';
 import { Text } from 'lucide-react';
 import { CellAction } from './cell-action';
-import { ProductItem } from '@/services/product/product-service';
 import Image from 'next/image';
+import { ShopItem } from '@/services/shop/shop-service';
 
-export const columns: ColumnDef<ProductItem>[] = [
+export const columns: ColumnDef<ShopItem>[] = [
   {
     accessorKey: 'image',
     header: 'Hình',
     cell: ({ row }) => {
-      const product = row.original as ProductItem;
+      const product = row.original as ShopItem;
       const imageURL = product.image?.url || '';
       if (!imageURL) return null;
       return (
@@ -34,10 +34,10 @@ export const columns: ColumnDef<ProductItem>[] = [
   {
     id: 'name',
     accessorKey: 'name',
-    header: ({ column }: { column: Column<ProductItem, unknown> }) => (
+    header: ({ column }: { column: Column<ShopItem, unknown> }) => (
       <DataTableColumnHeader column={column} title='Tên gian hàng' />
     ),
-    cell: ({ cell }) => <div>{cell.getValue<Product['name']>()}</div>,
+    cell: ({ cell }) => <div>{cell.getValue<Shop['name']>()}</div>,
     meta: {
       label: 'Tên gian hàng',
       placeholder: 'Tìm gian hàng...',
@@ -66,7 +66,7 @@ export const columns: ColumnDef<ProductItem>[] = [
     accessorKey: 'category',
     header: 'Danh mục',
     cell: ({ row }) => {
-      const category = row.getValue('category') as ProductItem['category'];
+      const category = row.getValue('category') as ShopItem['category'];
       return category?.name ?? '—';
     },
     meta: {

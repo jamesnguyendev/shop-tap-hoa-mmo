@@ -33,15 +33,12 @@ import {
 } from '@tabler/icons-react';
 
 import {
-  Crown,
-  FileUser,
   Flag,
   MessageCircle,
   ReceiptText,
   RotateCcw,
   Star,
   Store,
-  TicketPercent,
   WalletCards
 } from 'lucide-react';
 

@@ -1,6 +1,4 @@
-import { authOptions } from '@/lib/auth/authOptions';
 import { getRequest, postRequest, putRequest } from '@/utils/apiClient';
-import { getServerSession } from 'next-auth';
 
 type media = {
   id: string;
@@ -58,8 +56,6 @@ export const createVariant = async (
   data: any,
   accessToken?: string
 ) => {
-  console.log(accessToken);
-
   const req = await postRequest(
     `${process.env.NEXT_PUBLIC_API_SHOP_PRODUCT}/${id}`,
     { variants: [data] },

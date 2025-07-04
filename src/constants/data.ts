@@ -40,21 +40,13 @@ export const navItems: NavItem[] = [
     items: []
   },
   {
-    title: 'Sản phẩm',
-    url: '/dashboard/product',
-    icon: 'product',
-    shortcut: ['p', 'p'],
+    title: 'Danh mục',
+    url: '/dashboard/category',
+    icon: 'category',
+    shortcut: ['p', 'c'],
     isActive: false,
     items: [] // No child items
   },
-  // {
-  //   title: 'Danh mục',
-  //   url: '/dashboard/category',
-  //   icon: 'category',
-  //   shortcut: ['p', 'c'],
-  //   isActive: false,
-  //   items: [] // No child items
-  // },
   {
     title: 'Gian hàng',
     url: '/dashboard/shop',

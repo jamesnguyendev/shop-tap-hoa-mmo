@@ -3,12 +3,11 @@
 import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 
 import { ProductItem } from '@/services/product/product-service';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconEdit } from '@tabler/icons-react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import ProductForm from '../forms/product-form';
-import CreateVariant from '../forms/CreateVariant';
-import { PlusCircle } from 'lucide-react';
+
 import { AlertModal } from '@/components/modal/alert-modal';
 import { getShopDetailService } from '@/services/shop/shop-detail-service';
 
@@ -50,16 +49,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           />
         </FormDrawerWrapper>
       </div>
-      <div onClick={handleDetail}>
-        <FormDrawerWrapper icon={<PlusCircle />} triggerLabel='Tạo biến thể'>
-          <CreateVariant id={products?.id} pageTitle='Tạo biến thể' />
-        </FormDrawerWrapper>
-      </div>
       <div
         onClick={() => setOpen(true)}
         className='flex cursor-default gap-2.5'
       >
-        <IconTrash className='mr-2 h-4 w-4' /> Xóa
+        Xóa
       </div>
     </div>
   );

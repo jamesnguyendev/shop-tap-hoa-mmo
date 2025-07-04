@@ -1,5 +1,6 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -9,9 +10,13 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+
+import { TabsContent } from '@/components/ui/tabs';
+
 import { createVariant } from '@/services/product/product-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -31,13 +36,7 @@ type DataPros = {
   quantity: number;
 };
 
-const CreateVariant = ({
-  id,
-  pageTitle
-}: {
-  id: string;
-  pageTitle: string;
-}) => {
+const VariantActionTab = ({ initialData }: { initialData: any }) => {
   const { data: session } = useSession();
   const SKU = `sku-${Math.random().toString(36).slice(2, 10)}`;
 
@@ -64,7 +63,7 @@ const CreateVariant = ({
     };
 
     try {
-      await createVariant(id, data, session?.accessToken);
+      await createVariant(initialData.id, data, session?.accessToken);
       form.reset();
       toast.success('Tạo sản phẩm thành công');
       window.location.reload();
@@ -75,13 +74,8 @@ const CreateVariant = ({
   }
 
   return (
-    <Card className='mx-auto w-full'>
-      <CardHeader>
-        <CardTitle className='text-left text-2xl font-bold'>
-          {pageTitle}
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
+    <TabsContent value='infoTab'>
+      <div className='mx-auto mt-3 w-full'>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
             <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
@@ -146,9 +140,9 @@ const CreateVariant = ({
             </Button>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </TabsContent>
   );
-};
+}; 
 
-export default CreateVariant;
+export default VariantActionTab;

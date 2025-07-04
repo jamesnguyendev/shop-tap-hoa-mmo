@@ -10,7 +10,7 @@ const ShopTabs = ({ data }: { data: any }) => {
       <Tabs defaultValue='info'>
         <TabsList className='rounded-sm *:rounded'>
           <TabsTrigger value='info'>Thông tin cơ bản</TabsTrigger>
-          <TabsTrigger value='sellTab'>Thông tin biến thể</TabsTrigger>
+          <TabsTrigger value='sellTab'>Thông tin sản phẩm</TabsTrigger>
         </TabsList>
         <ShopInfoTab initialData={data} pageTitle='Thông tin cơ bản' />
         <ShopInfoVariantTab data={data} />

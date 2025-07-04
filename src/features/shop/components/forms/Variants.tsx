@@ -21,7 +21,7 @@ const Variants = ({ variants }: { variants?: VariantProps[] }) => {
       <table className='w-full border border-gray-200'>
         <thead>
           <tr>
-            <th className='border px-4 py-2 text-left'>Tên biến thể</th>
+            <th className='border px-4 py-2 text-left'>Tên sản phẩm</th>
             <th className='border px-4 py-2 text-left'>Giá</th>
             <th className='border px-4 py-2 text-left'>Số lượng</th>
             {/* <th className='border px-4 py-2 text-left'>Thao tác</th> */}

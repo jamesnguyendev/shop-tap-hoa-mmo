@@ -69,7 +69,7 @@ const CreateVariant = ({
     } catch (error) {
       console.log('req', error);
     }
-    toast.success('Tạo biến thể thành công');
+    toast.success('Tạo sản phẩm thành công');
   }
 
   return (
@@ -88,9 +88,9 @@ const CreateVariant = ({
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tên biến thể</FormLabel>
+                    <FormLabel>Tên sản phẩm</FormLabel>
                     <FormControl>
-                      <Input placeholder='Nhập tên biến thể' {...field} />
+                      <Input placeholder='Nhập tên sản phẩm' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

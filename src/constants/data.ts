@@ -63,7 +63,7 @@ export const navItems: NavItem[] = [
     items: [
       {
         title: 'Quản lý chat',
-        shortcut: ['l', 'l'],
+        shortcut: ['l', 'c'],
         url: '/dashboard/chat',
         icon: 'chat'
       },

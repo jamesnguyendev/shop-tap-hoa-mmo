@@ -38,6 +38,7 @@ import {
   productSchemaWithoutImage
 } from '@/schemas/product/product-schema';
 import Variants from './Variants';
+import { useRouter } from 'next/navigation';
 
 export default function ShopForm({
   initialData,
@@ -51,7 +52,7 @@ export default function ShopForm({
   const { data: session } = useSession();
 
   const [category, setCategory] = useState<CategoryItem[]>([]);
-
+  const router = useRouter();
   useEffect(() => {
     if (!session?.accessToken) return;
 
@@ -109,9 +110,11 @@ export default function ShopForm({
         // await uploadImage(initialData?.image?.url, header);
         toast.success('Cập nhật thành công');
       } else {
-        await createProduct(payLoad, session?.accessToken);
+        const req = await createProduct(payLoad, session?.accessToken);
         toast.success('Thêm thành công');
-        window.location.reload();
+        router.push(
+          `/dashboard/shop/${(req as { product: { id: string } }).product.id}`
+        );
         form.reset();
       }
     } catch (error) {

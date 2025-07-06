@@ -36,7 +36,7 @@ import { z } from 'zod';
 import { ShopSchema } from '@/schemas/shop/shop-schema';
 import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 import ShopForm from '../../forms/shop-form';
- 
+
 const ShopInfoTab = ({
   initialData,
   pageTitle,
@@ -215,7 +215,7 @@ const ShopInfoTab = ({
                   variant={'outline'}
                   type='submit'
                   disabled={isSubmitLoading}
-                  className='disabled:cursor-not-allowed disabled:opacity-70 dark:text-black'
+                  className='disabled:cursor-not-allowed disabled:opacity-70'
                 >
                   {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
                 </Button>

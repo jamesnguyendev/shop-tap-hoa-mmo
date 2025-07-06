@@ -6,7 +6,7 @@ import ShopInfoVariantTab from './item-tabs/shop-info-variant-tab';
 
 const ShopTabs = ({ data }: { data: any }) => {
   return (
-    <div className='flex w-full flex-col gap-6 px-5'>
+    <div className='flex w-full flex-col gap-6 lg:px-5'>
       <Tabs defaultValue='info'>
         <TabsList className='rounded-sm *:rounded'>
           <TabsTrigger value='info'>Thông tin cơ bản</TabsTrigger>

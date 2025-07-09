@@ -9,11 +9,14 @@ const VariantListTab = ({ data }: { data: any }) => {
       {data?.productVariants.length !== 0 ? (
         <div className='mt-2 flex flex-col gap-4 *:px-0'>
           <CardContent className='grid gap-6'>
-            <Variants variants={data?.productVariants} />
+            <Variants
+              variants={data?.productVariants}
+              productType={data.productType}
+            />
           </CardContent>
-          <CardFooter className='flex gap-3'>
-            <Button variant={'outline'}>Xác nhận</Button>
-            <Button variant={'default'}>Thêm</Button>
+          <CardFooter className='flex justify-end gap-3'>
+            <Button variant={'outline'}>Hủy</Button>
+            <Button variant={'default'}>Xác nhận</Button>
           </CardFooter>
         </div>
       ) : (

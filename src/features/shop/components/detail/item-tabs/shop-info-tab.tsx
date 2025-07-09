@@ -260,7 +260,7 @@ const ShopInfoTab = ({
                   </FormItem>
                 )}
               />
-              <div className='flex gap-3'>
+              <div className='flex justify-end gap-3'>
                 <Button variant={'outline'}>Hủy</Button>
                 <Button
                   variant={'outline'}

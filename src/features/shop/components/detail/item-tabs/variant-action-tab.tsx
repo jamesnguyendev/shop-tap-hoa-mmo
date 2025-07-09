@@ -131,7 +131,7 @@ const VariantActionTab = ({ initialData }: { initialData: any }) => {
           <Button
             type='submit'
             disabled={isSubmitLoading}
-            className='disabled:cursor-not-allowed disabled:opacity-70 dark:text-black'
+            className='disabled:cursor-not-allowed disabled:opacity-70 dark:text-black hidden'
           >
             {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
           </Button>

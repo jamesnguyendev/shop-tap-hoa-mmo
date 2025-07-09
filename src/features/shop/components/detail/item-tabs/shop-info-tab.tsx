@@ -26,7 +26,6 @@ import {
   CategoryItem,
   getCategoryService
 } from '@/services/category/category-service';
-import { createProduct } from '@/services/product/product-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
 import React, { useEffect, useState } from 'react';
@@ -36,37 +35,64 @@ import { z } from 'zod';
 import { ShopSchema } from '@/schemas/shop/shop-schema';
 import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 import ShopForm from '../../forms/shop-form';
+import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
 
 const ShopInfoTab = ({
   initialData,
-  pageTitle,
-  image
+  pageTitle
 }: {
   initialData: any;
-  image?: boolean;
   pageTitle: string;
 }) => {
   const { data: session } = useSession();
-
   const [category, setCategory] = useState<CategoryItem[]>([]);
+  const [productType, setProductType] = useState<productTypeItem[]>([]);
+  const [selectedProductTypeId, setSelectedProductTypeId] =
+    useState<string>('');
 
   useEffect(() => {
     if (!session?.accessToken) return;
 
+    const fetchProductTypes = async () => {
+      try {
+        const data = await getProductTypes(session?.accessToken);
+        setProductType(data?.productTypes);
+      } catch (error) {
+        console.error('Lỗi nạp loại sản phẩm :', error);
+      }
+    };
+    fetchProductTypes();
+  }, [session?.accessToken]);
+
+  useEffect(() => {
+    const productType = selectedProductTypeId
+      ? selectedProductTypeId
+      : initialData?.productType?.id;
+
+    if (!session?.accessToken || !productType) return;
+
     const fetchCategories = async () => {
       try {
-        const category = await getCategoryService(session?.accessToken);
+        const category = await getCategoryService(
+          session?.accessToken,
+          productType
+        );
         setCategory(category?.categories);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
     fetchCategories();
-  }, [session]);
+  }, [
+    session?.accessToken,
+    initialData?.productType?.id,
+    selectedProductTypeId
+  ]);
 
   const defaultValues = {
     name: initialData?.name || '',
     category: initialData?.category?.id || '',
+    productType: initialData?.productType?.id || '',
     image: undefined
   };
 
@@ -84,7 +110,7 @@ const ShopInfoTab = ({
       name: values.name,
       slug: stringToSlug(values.name),
       category: values.category,
-      productType: 'UHJvZHVjdFR5cGU6Mjc=',
+      productType: values.productType,
       metadata: [
         {
           key: 'Product Name',
@@ -94,27 +120,23 @@ const ShopInfoTab = ({
     };
 
     try {
-      if (image) {
-        // const header = {
-        //   PRODUCT_ID: initialData?.id,
-        //   SHOP_ID: '123',
-        //   VARIANT_ID: '123'
-        // };
-        // await uploadImage(initialData?.image?.url, header);
-        toast.success('Cập nhật thành công');
-      } else {
-        await createProduct(payLoad, session?.accessToken);
-        toast.success('Thêm thành công');
-        window.location.reload();
-        form.reset();
-      }
+      // const header = {
+      //   PRODUCT_ID: initialData?.id,
+      //   SHOP_ID: '123',
+      //   VARIANT_ID: '123'
+      // };
+      // await uploadImage(initialData?.image?.url, header);
+
+      toast.success('Cập nhật thành công');
+      // window.location.reload();
+      // form.reset();
     } catch (error) {
-      console.log('req', error);
+      console.log('req', error, payLoad);
     }
   }
 
   return (
-    <TabsContent value='info'>
+    <TabsContent value='info' className='w-full'>
       <Card className='mx-auto min-w-full'>
         <CardHeader>
           <CardTitle className='flex justify-between text-left text-2xl font-bold'>
@@ -165,21 +187,24 @@ const ShopInfoTab = ({
                 />
                 <FormField
                   control={form.control}
-                  name='category'
+                  name='productType'
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Danh mục</FormLabel>
+                    <FormItem className='*:min-w-full'>
+                      <FormLabel>Loại sản phẩm</FormLabel>
                       <Select
-                        onValueChange={(value) => field.onChange(value)}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setSelectedProductTypeId(value);
+                        }}
                         value={field.value}
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Chọn danh mục' />
+                            <SelectValue placeholder='Chọn sản phẩm' />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {category.map((item) => (
+                          {productType.map((item) => (
                             <SelectItem key={item.id} value={item.id}>
                               {item.name}
                             </SelectItem>
@@ -191,7 +216,33 @@ const ShopInfoTab = ({
                   )}
                 />
               </div>
-
+              <FormField
+                control={form.control}
+                name='category'
+                render={({ field }) => (
+                  <FormItem className='*:min-w-1/2'>
+                    <FormLabel>Danh mục</FormLabel>
+                    <Select
+                      onValueChange={(value) => field.onChange(value)}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Chọn danh mục' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {category.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>
+                            {item.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name='description'
@@ -220,7 +271,7 @@ const ShopInfoTab = ({
                   {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
                 </Button>
                 <FormDrawerWrapper>
-                  <ShopForm initialData={null} pageTitle='Thêm mới' />
+                  <ShopForm pageTitle='Thêm mới' />
                 </FormDrawerWrapper>
               </div>
             </form>

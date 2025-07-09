@@ -40,8 +40,7 @@ const Loading = () => {
         </Card>
       </div>
       <Card className='order-2 h-fit min-w-[17rem] rounded-lg border p-3 lg:order-2'>
-        {/* <ReviewProduct /> */}
-        <Skeleton className='h-4 w-30 bg-gray-300' />
+         <Skeleton className='h-4 w-30 bg-gray-300' />
         <Skeleton className='h-4 w-30 bg-gray-300' />
         <Skeleton className='h-60 w-full rounded bg-gray-300'></Skeleton>
         <Skeleton className='h-4 w-30 bg-gray-300' />

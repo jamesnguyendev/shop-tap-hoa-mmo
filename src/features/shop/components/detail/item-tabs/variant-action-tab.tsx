@@ -11,8 +11,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { TabsContent } from '@/components/ui/tabs';
-
 import { createVariant } from '@/services/product/product-service';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useSession } from 'next-auth/react';
@@ -74,75 +72,73 @@ const VariantActionTab = ({ initialData }: { initialData: any }) => {
   }
 
   return (
-    <TabsContent value='infoTab'>
-      <div className='mx-auto mt-3 w-full'>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
-              <FormField
-                control={form.control}
-                name='name'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tên sản phẩm</FormLabel>
-                    <FormControl>
-                      <Input placeholder='Nhập tên sản phẩm' {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='price'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Giá</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        step='1000'
-                        placeholder='Nhập giá'
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='quantity'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Số lượng</FormLabel>
-                    <FormControl>
-                      <Input
-                        type='number'
-                        step='1'
-                        placeholder='Nhập Số lượng'
-                        {...field}
-                        onChange={(e) => field.onChange(e.target.valueAsNumber)}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button
-              type='submit'
-              disabled={isSubmitLoading}
-              className='disabled:cursor-not-allowed disabled:opacity-70 dark:text-black'
-            >
-              {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
-            </Button>
-          </form>
-        </Form>
-      </div>
-    </TabsContent>
+    <div className='mx-auto mt-3 w-full'>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+          <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tên sản phẩm</FormLabel>
+                  <FormControl>
+                    <Input placeholder='Nhập tên sản phẩm' {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='price'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Giá</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      step='1000'
+                      placeholder='Nhập giá'
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='quantity'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Số lượng</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='number'
+                      step='1'
+                      placeholder='Nhập Số lượng'
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Button
+            type='submit'
+            disabled={isSubmitLoading}
+            className='disabled:cursor-not-allowed disabled:opacity-70 dark:text-black'
+          >
+            {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
-}; 
+};
 
 export default VariantActionTab;

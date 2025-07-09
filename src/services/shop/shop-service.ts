@@ -24,6 +24,16 @@ export type ProductResponse = {
   products: ShopItem[];
 };
 
+export type productTypeItem = {
+  id: string;
+  name: string;
+};
+
+export type ProductTypeResponse = {
+  total: number;
+  productTypes: productTypeItem[];
+};
+
 export const getShopService = async (
   accessToken?: string
 ): Promise<ProductResponse> => {
@@ -57,8 +67,6 @@ export const createVariant = async (
   data: any,
   accessToken?: string
 ) => {
-  console.log(accessToken);
-
   const req = await postRequest(
     `${process.env.NEXT_PUBLIC_API_SHOP_PRODUCT}/${id}`,
     { variants: [data] },
@@ -76,6 +84,20 @@ export const uploadImage = async (file: string | undefined, header: any) => {
     process.env.NEXT_PUBLIC_API_UPLOAD_IMAGE || '',
     file,
     { headers: header }
+  );
+  return req;
+};
+
+export const getProductTypes = async (
+  accessToken?: string
+): Promise<ProductTypeResponse> => {
+  const req = await getRequest<ProductTypeResponse>(
+    process.env.NEXT_PUBLIC_API_PRODUCT_TYPE || '',
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
   );
   return req;
 };

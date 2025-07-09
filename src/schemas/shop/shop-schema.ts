@@ -16,10 +16,12 @@ export const ShopSchema = z.object({
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       '.jpg, .jpeg, .png và .webp là định dạng cho phép.'
-    ),
+    )
+    .optional(),
   name: z.string().min(2, {
     message: 'Tên gian hàng phải có ít nhất 2 ký tự.'
   }),
   description: z.string().optional(),
+  productType: z.string().min(2, 'Loại sản phẩm là bắt buộc'),
   category: z.string().min(1, 'Danh mục là bắt buộc')
 });

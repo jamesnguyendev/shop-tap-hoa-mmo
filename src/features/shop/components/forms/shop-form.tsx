@@ -17,7 +17,6 @@ import {
 } from '@/components/ui/form';
 import { useSession } from 'next-auth/react';
 import { stringToSlug } from '@/lib/utils';
-import { FileUploader } from '@/components/file-uploader';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -33,65 +32,72 @@ import {
 } from '@/services/category/category-service';
 import { createProduct } from '@/services/product/product-service';
 import { toast } from 'sonner';
-import {
-  productSchemaWithImage,
-  productSchemaWithoutImage
-} from '@/schemas/product/product-schema';
-import Variants from './Variants';
 import { useRouter } from 'next/navigation';
+import { ShopSchema } from '@/schemas/shop/shop-schema';
+import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
 
-export default function ShopForm({
-  initialData,
-  pageTitle,
-  image
-}: {
-  initialData: any;
-  image?: boolean;
-  pageTitle: string;
-}) {
+export default function ShopForm({ pageTitle }: { pageTitle: string }) {
   const { data: session } = useSession();
 
+  const [productType, setProductType] = useState<productTypeItem[]>([]);
   const [category, setCategory] = useState<CategoryItem[]>([]);
+  const [selectedProductTypeId, setSelectedProductTypeId] =
+    useState<string>('');
   const router = useRouter();
+
   useEffect(() => {
     if (!session?.accessToken) return;
 
+    const fetchProductTypes = async () => {
+      try {
+        const data = await getProductTypes(session?.accessToken);
+        setProductType(data?.productTypes);
+      } catch (error) {
+        console.error('Lỗi nạp loại sản phẩm :', error);
+      }
+    };
+    fetchProductTypes();
+  }, [session?.accessToken]);
+
+  useEffect(() => {
+    if (!session?.accessToken || !selectedProductTypeId) return;
+
     const fetchCategories = async () => {
       try {
-        const category = await getCategoryService(session?.accessToken);
+        const category = await getCategoryService(
+          session?.accessToken,
+          selectedProductTypeId
+        );
         setCategory(category?.categories);
       } catch (error) {
-        console.error('Error fetching categories:', error);
+        console.error('Lỗi nạp danh mục :', error);
       }
     };
     fetchCategories();
-  }, [session]);
+  }, [session?.accessToken, selectedProductTypeId]);
 
   const defaultValues = {
-    name: initialData?.name || '',
-    category: initialData?.category?.id || '',
+    name: '',
+    productType: '',
+    category: '',
     image: undefined
   };
 
-  const formSchema = image ? productSchemaWithImage : productSchemaWithoutImage;
-
-  type ShopFormValues =
-    | z.infer<typeof productSchemaWithImage>
-    | z.infer<typeof productSchemaWithoutImage>;
+  type ShopFormValues = z.infer<typeof ShopSchema>;
 
   const form = useForm<ShopFormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(ShopSchema),
     values: defaultValues
   });
 
   const isSubmitLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof ShopSchema>) {
     const payLoad = {
       name: values.name,
       slug: stringToSlug(values.name),
       category: values.category,
-      productType: 'UHJvZHVjdFR5cGU6Mjc=',
+      productType: values.productType,
       metadata: [
         {
           key: 'Product Name',
@@ -101,24 +107,15 @@ export default function ShopForm({
     };
 
     try {
-      if (image) {
-        // const header = {
-        //   PRODUCT_ID: initialData?.id,
-        //   SHOP_ID: '123',
-        //   VARIANT_ID: '123'
-        // };
-        // await uploadImage(initialData?.image?.url, header);
-        toast.success('Cập nhật thành công');
-      } else {
-        const req = await createProduct(payLoad, session?.accessToken);
-        toast.success('Thêm thành công');
-        router.push(
-          `/dashboard/shop/${(req as { product: { id: string } }).product.id}`
-        );
-        form.reset();
-      }
+      const res = await createProduct(payLoad, session?.accessToken);
+      toast.success('Thêm thành công');
+      router.push(
+        `/dashboard/shop/${(res as { product: { id: string } }).product.id}`
+      );
+      form.reset();
     } catch (error) {
-      console.log('req', error);
+      console.error('  Error:', JSON.stringify(error, null, 2));
+      toast.error('Thêm thất bại');
     }
   }
 
@@ -132,33 +129,6 @@ export default function ShopForm({
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
-            {image ? (
-              <FormField
-                control={form.control}
-                name='image'
-                render={({ field }) => (
-                  <div className='space-y-6'>
-                    <FormItem className='w-full'>
-                      <FormLabel>Hình ảnh</FormLabel>
-                      <FormControl>
-                        <FileUploader
-                          value={field.value}
-                          onValueChange={field.onChange}
-                          maxFiles={4}
-                          maxSize={4 * 1024 * 1024}
-                          // disabled={loading}
-                          // progresses={progresses}
-                          // onUpload={uploadFiles}
-                          // disabled={isUploading}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  </div>
-                )}
-              />
-            ) : null}
-
             <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
               <FormField
                 control={form.control}
@@ -175,17 +145,49 @@ export default function ShopForm({
               />
               <FormField
                 control={form.control}
+                name='productType'
+                render={({ field }) => (
+                  <FormItem className='*:min-w-full'>
+                    <FormLabel>Loại sản phẩm</FormLabel>
+                    <Select
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSelectedProductTypeId(value);
+                      }}
+                      value={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Chọn sản phẩm' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {productType.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>
+                            {item.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name='category'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='*:min-w-full'>
                     <FormLabel>Danh mục</FormLabel>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
                       value={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder='Chọn danh mục' />
+                        <SelectTrigger disabled={!selectedProductTypeId}>
+                          <SelectValue
+                            placeholder={`${!selectedProductTypeId ? 'Chưa chọn loại sản phẩm' : 'Chọn danh mục'} `}
+                          />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -201,9 +203,6 @@ export default function ShopForm({
                 )}
               />
             </div>
-            {initialData?.id && (
-              <Variants variants={initialData?.productVariants} />
-            )}
             <FormField
               control={form.control}
               name='description'
@@ -225,7 +224,7 @@ export default function ShopForm({
               <Button
                 type='submit'
                 disabled={isSubmitLoading}
-                className='disabled:cursor-not-allowed disabled:opacity-70 dark:text-black'
+                className='hover:cursor-pointer disabled:cursor-not-allowed disabled:opacity-70 dark:text-black'
               >
                 {isSubmitLoading ? 'Đang xử lý...' : 'Xác nhận'}
               </Button>

@@ -1,7 +1,10 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
 
 import Variants from '../../forms/Variants';
+import CreateVariant from '../../forms/CreateVariant';
 
 const VariantListTab = ({ data }: { data: any }) => {
   return (
@@ -14,9 +17,10 @@ const VariantListTab = ({ data }: { data: any }) => {
               productType={data.productType}
             />
           </CardContent>
-          <CardFooter className='flex justify-end gap-3'>
+          <CardFooter className='flex justify-end gap-3 *:cursor-pointer'>
             <Button variant={'outline'}>Hủy</Button>
-            <Button variant={'default'}>Xác nhận</Button>
+            <CreateVariant id={data.id} pageTitle='Thêm sản phẩm' />
+            {/* <Button variant={'default'}>Xác nhận</Button> */}
           </CardFooter>
         </div>
       ) : (

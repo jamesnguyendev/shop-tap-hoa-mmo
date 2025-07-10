@@ -28,7 +28,7 @@ const Variants = ({
     <div>
       <table className='w-full border border-gray-200'>
         <thead>
-          <tr>
+          <tr className='text-xs md:text-sm'>
             <th className='border px-4 py-2 text-left'>Tên sản phẩm</th>
             <th className='border px-4 py-2 text-left'>Giá</th>
             <th className='border px-4 py-2 text-left'>Số lượng</th>

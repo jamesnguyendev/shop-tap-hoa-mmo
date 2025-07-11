@@ -243,24 +243,20 @@ const ShopInfoTab = ({
                   </FormItem>
                 )}
               />
-              {/* <FormField
+              <FormField
                 control={form.control}
                 name='description'
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='w-full *:min-w-full'>
                     <FormLabel>Mô tả</FormLabel>
                     <FormControl>
-                      <Textarea
-                        placeholder='Nhập mô tả gian hàng'
-                        className='resize-none'
-                        {...field}
-                      />
+                      <CkEditorCustom field={field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
-              /> */}
-              <CkEditorCustom />
+              />
+
               <div className='flex justify-end gap-3'>
                 <Button variant={'outline'}>Hủy</Button>
                 <Button

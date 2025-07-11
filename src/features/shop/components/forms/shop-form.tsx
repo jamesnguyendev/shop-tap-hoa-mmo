@@ -18,7 +18,7 @@ import {
 import { useSession } from 'next-auth/react';
 import { stringToSlug } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
- import {
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -202,6 +202,9 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                   </FormItem>
                 )}
               />
+              <div className='col-span-2'>
+                <CkEditorCustom />
+              </div>
             </div>
             {/* <FormField
               control={form.control}
@@ -220,7 +223,6 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                 </FormItem>
               )}
             /> */}
-            <CkEditorCustom />
             <div className='flex gap-3'>
               <Button
                 type='submit'

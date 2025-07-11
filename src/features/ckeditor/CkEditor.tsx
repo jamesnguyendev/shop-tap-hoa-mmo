@@ -51,12 +51,12 @@ import 'ckeditor5/ckeditor5.css';
 const LICENSE_KEY = process.env.NEXT_PUBLIC_LICENSE_KEY;
 
 const CLOUD_SERVICES_TOKEN_URL = `${process.env.NEXT_PUBLIC_CLOUD_SERVICES_TOKEN_URL}?limit=10`;
-('');
 
-export default function CkEditorCustom() {
+export default function CkEditorCustom(field?: any) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
+  console.log(field);
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -252,7 +252,7 @@ export default function CkEditorCustom() {
   }, [isLayoutReady]);
 
   return (
-    <div className='main-container'>
+    <div className='main-container' style={{ width: '100%' }}>
       <div
         className='editor-container editor-container_classic-editor'
         ref={editorContainerRef}

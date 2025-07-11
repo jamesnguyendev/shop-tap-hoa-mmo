@@ -18,8 +18,7 @@ import {
 import { useSession } from 'next-auth/react';
 import { stringToSlug } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import {
+ import {
   Select,
   SelectContent,
   SelectItem,
@@ -35,6 +34,7 @@ import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { ShopSchema } from '@/schemas/shop/shop-schema';
 import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
+import CkEditorCustom from '@/features/ckeditor/CkEditor';
 
 export default function ShopForm({ pageTitle }: { pageTitle: string }) {
   const { data: session } = useSession();
@@ -203,7 +203,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                 )}
               />
             </div>
-            <FormField
+            {/* <FormField
               control={form.control}
               name='description'
               render={({ field }) => (
@@ -219,7 +219,8 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
+            <CkEditorCustom />
             <div className='flex gap-3'>
               <Button
                 type='submit'

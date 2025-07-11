@@ -17,14 +17,10 @@ const ShopTabs = ({ data }: { data: any }) => {
             Thông tin cơ bản
           </TabsTrigger>
           <TabsTrigger value='sellTab'>Thông tin sản phẩm</TabsTrigger>
-          <TabsTrigger value='v'>Vận chuyển</TabsTrigger>
           <TabsTrigger value='t'>Thông tin khác</TabsTrigger>
         </TabsList>
         <ShopInfoTab initialData={data} pageTitle='Thông tin cơ bản' />
         <ShopInfoVariantTab data={data} />
-        <TabsContent value='v'>
-          <Card className='px-5'>Vận chuyển</Card>
-        </TabsContent>
         <TabsContent value='t'>
           <Card className='px-5'>Thông tin khác</Card>
         </TabsContent>

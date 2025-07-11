@@ -1,5 +1,4 @@
 import { Input } from '@/components/ui/input';
-import { Eye, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 type channelListings = {
@@ -60,13 +59,16 @@ const Variants = ({
                 />
               </td>
               <td className='border px-4 py-2'>
-                <div className='flex items-center justify-center gap-4 *:cursor-pointer'>
+                <div className='flex flex-col items-center justify-center gap-1.5 text-sm *:cursor-pointer'>
                   {productType?.id === 'UHJvZHVjdFR5cGU6Mjc=' && (
-                    <Link href={`/dashboard/product/${item.id}`}>
-                      <Eye size={20} color='black' />
+                    <Link
+                      href={`/dashboard/product/${item.id}`}
+                      className='hover:underline'
+                    >
+                      Upload
                     </Link>
                   )}
-                  <Trash2 size={20} color='red' />
+                  <span className='hover:underline'> Xóa</span>
                 </div>
               </td>
             </tr>

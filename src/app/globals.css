@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @import 'tailwindcss';
 
 @import 'tw-animate-css';
@@ -5,6 +7,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @import './theme.css';
+
+@media print {
+  body {
+    margin: 0 !important;
+  }
+}
 
 :root {
   --radius: 0.625rem;
@@ -39,6 +47,7 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --ck-content-font-family: 'Lato';
 }
 
 .dark {
@@ -156,3 +165,17 @@
   /* Apply the reveal animation */
   animation: reveal 0.4s ease-in-out forwards;
 }
+
+.main-container {
+  font-family: var(--ck-content-font-family);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.editor-container_classic-editor .editor-container__editor {
+  min-width: 795px;
+  max-width: 795px;
+}
+
+ 

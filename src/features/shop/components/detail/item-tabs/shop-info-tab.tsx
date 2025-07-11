@@ -20,7 +20,6 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { TabsContent } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
 import { stringToSlug } from '@/lib/utils';
 import {
   CategoryItem,
@@ -36,6 +35,7 @@ import { ShopSchema } from '@/schemas/shop/shop-schema';
 import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 import ShopForm from '../../forms/shop-form';
 import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
+import CkEditorCustom from '@/features/ckeditor/CkEditor';
 
 const ShopInfoTab = ({
   initialData,
@@ -243,7 +243,7 @@ const ShopInfoTab = ({
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name='description'
                 render={({ field }) => (
@@ -259,7 +259,8 @@ const ShopInfoTab = ({
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
+              <CkEditorCustom />
               <div className='flex justify-end gap-3'>
                 <Button variant={'outline'}>Hủy</Button>
                 <Button

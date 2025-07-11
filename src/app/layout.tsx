@@ -10,6 +10,7 @@ import './globals.css';
 import './theme.css';
 import SessionProviderWrapper from '@/components/layout/session-provider-wrapper';
 import SessionWatcher from '@/components/layout/SessionWatcher';
+import Script from 'next/script';
 
 const META_THEME_COLORS = {
   light: '#ffffff',
@@ -71,6 +72,10 @@ export default async function RootLayout({
               </Providers>
             </ThemeProvider>
           </NuqsAdapter>
+          <Script
+            src='https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js'
+            crossOrigin='anonymous'
+          ></Script>
         </SessionProviderWrapper>
       </body>
     </html>

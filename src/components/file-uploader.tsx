@@ -98,7 +98,7 @@ export function FileUploader(props: FileUploaderProps) {
     onValueChange,
     onUpload,
     progresses,
-    accept = { 'image/*': [] },
+    accept = { 'text/*': [] },
     maxSize = 1024 * 1024 * 2,
     maxFiles = 1,
     multiple = false,
@@ -274,10 +274,12 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
       <div className='flex flex-1 space-x-4'>
         {isFileWithPreview(file) ? (
           <Image
-            src={file.preview}
+            src={'/images/csv.png'}
+            // src={file.preview || '/images/csv.png'}
             alt={file.name}
-            width={48}
-            height={48}
+            width={38}
+            height={38}
+            quality={100}
             loading='lazy'
             className='aspect-square shrink-0 rounded-md object-cover'
           />

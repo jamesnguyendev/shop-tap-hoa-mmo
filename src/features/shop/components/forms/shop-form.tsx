@@ -80,6 +80,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
     name: '',
     productType: '',
     category: '',
+    description: '',
     image: undefined
   };
 

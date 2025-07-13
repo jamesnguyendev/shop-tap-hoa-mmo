@@ -13,6 +13,7 @@ const VariantListTab = ({ data }: { data: any }) => {
         <div className='mt-2 flex flex-col gap-4 *:px-0'>
           <CardContent className='grid gap-6'>
             <Variants
+              productID={data?.id}
               variants={data?.productVariants}
               productType={data.productType}
             />

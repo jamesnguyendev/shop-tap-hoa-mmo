@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
@@ -52,11 +54,11 @@ const LICENSE_KEY = process.env.NEXT_PUBLIC_LICENSE_KEY;
 
 const CLOUD_SERVICES_TOKEN_URL = `${process.env.NEXT_PUBLIC_CLOUD_SERVICES_TOKEN_URL}?limit=10`;
 
-export default function CkEditorCustom(field?: any) {
+export default function CkEditorCustom({ field }: { field?: any }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
-  console.log(field);
+  // console.log(field);
 
   useEffect(() => {
     setIsLayoutReady(true);
@@ -251,6 +253,8 @@ export default function CkEditorCustom(field?: any) {
     };
   }, [isLayoutReady]);
 
+  if (!isLayoutReady) return <div>Đang tải Trình soạn thảo...</div>;
+
   return (
     <div className='main-container' style={{ width: '100%' }}>
       <div
@@ -260,7 +264,16 @@ export default function CkEditorCustom(field?: any) {
         <div className='editor-container__editor'>
           <div ref={editorRef}>
             {editorConfig && (
-              <CKEditor editor={ClassicEditor} config={editorConfig as any} />
+              <CKEditor
+                editor={ClassicEditor}
+                config={editorConfig as any}
+                data={field.value}
+                onChange={(_, editor) => {
+                  const data = editor.getData();
+                  field.onChange(data);
+                }}
+                onBlur={field.onBlur}
+              />
             )}
           </div>
         </div>

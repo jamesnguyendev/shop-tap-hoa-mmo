@@ -21,7 +21,11 @@ export const ShopSchema = z.object({
   name: z.string().min(2, {
     message: 'Tên gian hàng phải có ít nhất 2 ký tự.'
   }),
-  description: z.string().optional(),
+  description: z.string().min(2, {
+    message: 'Mô tả phải có ít nhất 2 ký tự.'
+  }),
   productType: z.string().min(2, 'Loại sản phẩm là bắt buộc'),
-  category: z.string().min(1, 'Danh mục là bắt buộc')
+  category: z.string().min(1, 'Danh mục là bắt buộc'),
+  seoTitle: z.string().optional(),
+  seoDescription: z.string().optional()
 });

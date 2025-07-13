@@ -36,6 +36,7 @@ import FormDrawerWrapper from '@/components/modal/FormDrawerWrapper';
 import ShopForm from '../../forms/shop-form';
 import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
 import CkEditorCustom from '@/features/ckeditor/CkEditor';
+import { updateShopDetailService } from '@/services/shop/shop-detail-service';
 
 const ShopInfoTab = ({
   initialData,
@@ -70,29 +71,28 @@ const ShopInfoTab = ({
       : initialData?.productType?.id;
 
     if (!session?.accessToken || !productType) return;
-
     const fetchCategories = async () => {
       try {
-        const category = await getCategoryService(
+        const categoryData = await getCategoryService(
           session?.accessToken,
           productType
         );
-        setCategory(category?.categories);
+
+        setCategory(categoryData?.categories);
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
     };
     fetchCategories();
-  }, [
-    session?.accessToken,
-    initialData?.productType?.id,
-    selectedProductTypeId
-  ]);
+  }, [initialData, selectedProductTypeId, session?.accessToken]);
 
   const defaultValues = {
     name: initialData?.name || '',
     category: initialData?.category?.id || '',
     productType: initialData?.productType?.id || '',
+    seoTitle: '',
+    seoDescription: '',
+    description: initialData?.description || '',
     image: undefined
   };
 
@@ -111,6 +111,9 @@ const ShopInfoTab = ({
       slug: stringToSlug(values.name),
       category: values.category,
       productType: values.productType,
+      description: values.description,
+      seoTitle: values.name,
+      seoDescription: values.name,
       metadata: [
         {
           key: 'Product Name',
@@ -120,18 +123,17 @@ const ShopInfoTab = ({
     };
 
     try {
-      // const header = {
-      //   PRODUCT_ID: initialData?.id,
-      //   SHOP_ID: '123',
-      //   VARIANT_ID: '123'
-      // };
-      // await uploadImage(initialData?.image?.url, header);
+      const res = await updateShopDetailService(
+        session?.accessToken,
+        initialData?.id,
+        payLoad
+      );
 
-      toast.success('Cập nhật thành công');
-      // window.location.reload();
-      // form.reset();
+      if ((res as { product?: { id?: string } })?.product?.id) {
+        toast.success('Cập nhật thành công');
+      }
     } catch (error) {
-      console.log('req', error, payLoad);
+      console.error('req', error, payLoad);
     }
   }
 
@@ -197,6 +199,7 @@ const ShopInfoTab = ({
                           setSelectedProductTypeId(value);
                         }}
                         value={field.value}
+                        disabled
                       >
                         <FormControl>
                           <SelectTrigger>
@@ -256,7 +259,6 @@ const ShopInfoTab = ({
                   </FormItem>
                 )}
               />
-
               <div className='flex justify-end gap-3'>
                 <Button variant={'outline'}>Hủy</Button>
                 <Button

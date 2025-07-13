@@ -79,20 +79,49 @@ export const createVariant = async (
   return req;
 };
 
-export const uploadImage = async (file: string | undefined, header: any) => {
-  const req = await putRequest(
-    process.env.NEXT_PUBLIC_API_UPLOAD_IMAGE || '',
-    file,
-    { headers: header }
-  );
-  return req;
-};
-
 export const getProductTypes = async (
   accessToken?: string
 ): Promise<ProductTypeResponse> => {
   const req = await getRequest<ProductTypeResponse>(
     process.env.NEXT_PUBLIC_API_PRODUCT_TYPE || '',
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  );
+  return req;
+};
+
+export const updateFileProduct = async (data?: any, accessToken?: string) => {
+  const req = await postRequest(
+    process.env.NEXT_PUBLIC_API_UPLOAD_PRODUCT || '',
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    }
+  );
+  return req;
+};
+
+export const urlForUpdate = async (url?: string, accessToken?: string) => {
+  const req = await putRequest(url || '', {
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  return req;
+};
+
+export const getUploadedFiles = async (
+  variantId?: string,
+  accessToken?: string
+) => {
+  const req = await getRequest(
+    `${process.env.NEXT_PUBLIC_API_UPLOAD_PRODUCT}?variant_id=${variantId}` ||
+      '',
     {
       headers: {
         Authorization: `Bearer ${accessToken}`

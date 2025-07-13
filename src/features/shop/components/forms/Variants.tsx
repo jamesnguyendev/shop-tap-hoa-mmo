@@ -15,9 +15,11 @@ type VariantProps = {
 };
 
 const Variants = ({
+  productID,
   variants,
   productType
 }: {
+  productID?: string;
   variants?: VariantProps[];
   productType: any;
 }) => {
@@ -62,7 +64,7 @@ const Variants = ({
                 <div className='flex flex-col items-center justify-center gap-1.5 text-sm *:cursor-pointer'>
                   {productType?.id === 'UHJvZHVjdFR5cGU6Mjc=' && (
                     <Link
-                      href={`/dashboard/product/${item.id}`}
+                      href={`/dashboard/product/${productID}/${item.id}`}
                       className='hover:underline'
                     >
                       Upload

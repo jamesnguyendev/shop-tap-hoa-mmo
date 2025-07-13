@@ -1,4 +1,4 @@
-import { getRequest, postRequest, putRequest } from '@/utils/apiClient';
+import { getRequest, postRequest } from '@/utils/apiClient';
 
 type media = {
   id: string;
@@ -64,15 +64,6 @@ export const createVariant = async (
         Authorization: `Bearer ${accessToken}`
       }
     }
-  );
-  return req;
-};
-
-export const uploadImage = async (file: string | undefined, header: any) => {
-  const req = await putRequest(
-    process.env.NEXT_PUBLIC_API_UPLOAD_IMAGE || '',
-    file,
-    { headers: header }
   );
   return req;
 };

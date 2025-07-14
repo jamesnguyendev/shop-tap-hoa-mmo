@@ -116,7 +116,7 @@ export const urlForUpdate = async (url?: string, accessToken?: string) => {
 };
 
 export const getUploadedFiles = async (
-  variantId?: string,
+  variantId?: string |null,
   accessToken?: string
 ) => {
   const req = await getRequest(

@@ -156,7 +156,7 @@ const CreateVariant = ({
                     </FormItem>
                   )}
                 />
-                <div className='flex flex-col lg:flex-row gap-3'>
+                <div className='flex flex-col gap-3 lg:flex-row'>
                   <Button
                     type='submit'
                     disabled={isSubmitLoading}

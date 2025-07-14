@@ -16,6 +16,7 @@ const VariantListTab = ({ data }: { data: any }) => {
               productID={data?.id}
               variants={data?.productVariants}
               productType={data.productType}
+              productName={data.name}
             />
           </CardContent>
           <CardFooter className='flex justify-end gap-3 *:cursor-pointer'>

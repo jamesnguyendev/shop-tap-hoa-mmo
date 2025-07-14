@@ -33,6 +33,11 @@ const routeMapping: Record<string, BreadcrumbItem[]> = {
   '/dashboard/review': [
     { title: 'Trang chủ', link: '/dashboard' },
     { title: 'Đánh giá', link: '/dashboard/review' }
+  ],
+  '/dashboard/upload': [
+    { title: 'Trang chủ', link: '/dashboard' },
+    { title: 'Shop', link: '/dashboard/shop' },
+    { title: 'Tải tệp sản phẩm', link: '/dashboard/upload' }
   ]
 };
 
@@ -45,6 +50,7 @@ export function useBreadcrumbs() {
     }
 
     const segments = pathname.split('/').filter(Boolean);
+
     return segments.map((segment, index) => {
       const path = `/${segments.slice(0, index + 1).join('/')}`;
       return {

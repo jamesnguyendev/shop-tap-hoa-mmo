@@ -1,5 +1,9 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import Link from 'next/link';
+import { useProductVariantStore } from '@/store/shop/useProductVariantStore';
+import { useRouter } from 'next/navigation';
 
 type channelListings = {
   price: {
@@ -17,13 +21,21 @@ type VariantProps = {
 const Variants = ({
   productID,
   variants,
-  productType
+  productType,
+  productName
 }: {
   productID?: string;
+  productName?: string;
   variants?: VariantProps[];
   productType: any;
 }) => {
+  const router = useRouter();
   if (!variants || variants.length === 0) return null;
+
+  const handleClick = (pID: any, vID: any, pName: any) => {
+    router.push('/dashboard/upload');
+    useProductVariantStore.getState().setIDs(pID, vID, pName);
+  };
 
   return (
     <div>
@@ -56,6 +68,7 @@ const Variants = ({
               <td className='border px-4 py-2'>
                 <Input
                   type='number'
+                  disabled
                   defaultValue={item.quantityAvailable}
                   className='w-full shadow-none outline-none focus-visible:ring-0'
                 />
@@ -63,12 +76,16 @@ const Variants = ({
               <td className='border px-4 py-2'>
                 <div className='flex flex-col items-center justify-center gap-1.5 text-sm *:cursor-pointer'>
                   {productType?.id === 'UHJvZHVjdFR5cGU6Mjc=' && (
-                    <Link
-                      href={`/dashboard/product/${productID}/${item.id}`}
+                    <Button
+                      variant={'link'}
+                      // href={`/dashboard/product/${productID}/${item.id}`}
                       className='hover:underline'
+                      onClick={() =>
+                        handleClick(productID, item.id, productName)
+                      }
                     >
                       Upload
-                    </Link>
+                    </Button>
                   )}
                   <span className='hover:underline'> Xóa</span>
                 </div>

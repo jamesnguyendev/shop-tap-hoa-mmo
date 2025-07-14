@@ -102,7 +102,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
       productType: values.productType || '',
       description: values.description || '',
       seoTitle: values.name || '',
-      seoDescription: values.name || '',
+      seoDescription: values.description || '',
       metadata: [
         {
           key: 'Product Name',
@@ -223,7 +223,6 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                 />
               </div>
             </div>
-            ss
             <div className='flex gap-3'>
               <Button
                 type='submit'

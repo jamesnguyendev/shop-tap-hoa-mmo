@@ -11,7 +11,7 @@ export async function middleware(req: NextRequest) {
 
   const loginTimeCookie = req.cookies.get('loginTime')?.value;
   const loginTime = loginTimeCookie ? parseInt(loginTimeCookie, 10) : 0;
-  const TWO_HOURS = 2 * 60 *  60 * 1000;
+  const TWO_HOURS = 2 * 60 * 60 * 1000;
 
   const now = Date.now();
   const isExpired = now - loginTime >= TWO_HOURS;

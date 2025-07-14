@@ -25,7 +25,7 @@ export default async function ShopListingPage({}: ShopListingPage) {
   const data = await getShopService(session?.accessToken);
 
   const total = data.total;
-  const dataProducts: ShopItem[] = data.products;
+  const dataProducts: ShopItem[] = data.products || [];
 
   return <ShopTable data={dataProducts} totalItems={total} columns={columns} />;
 }

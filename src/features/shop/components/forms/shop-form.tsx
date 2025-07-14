@@ -51,6 +51,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
     const fetchProductTypes = async () => {
       try {
         const data = await getProductTypes(session?.accessToken);
+
         setProductType(data?.productTypes);
       } catch (error) {
         console.error('Lỗi nạp loại sản phẩm :', error);
@@ -95,14 +96,17 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
 
   async function onSubmit(values: z.infer<typeof ShopSchema>) {
     const payLoad = {
-      name: values.name,
-      slug: stringToSlug(values.name),
-      category: values.category,
-      productType: values.productType,
+      name: values.name || '',
+      slug: stringToSlug(values.name) || '',
+      category: values.category || '',
+      productType: values.productType || '',
+      description: values.description || '',
+      seoTitle: values.name || '',
+      seoDescription: values.name || '',
       metadata: [
         {
           key: 'Product Name',
-          value: values.name
+          value: values.name || ''
         }
       ]
     };
@@ -155,7 +159,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                         field.onChange(value);
                         setSelectedProductTypeId(value);
                       }}
-                      value={field.value}
+                      value={field?.value}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -163,7 +167,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {productType.map((item) => (
+                        {productType?.map((item) => (
                           <SelectItem key={item.id} value={item.id}>
                             {item.name}
                           </SelectItem>
@@ -182,7 +186,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                     <FormLabel>Danh mục</FormLabel>
                     <Select
                       onValueChange={(value) => field.onChange(value)}
-                      value={field.value}
+                      value={field?.value}
                     >
                       <FormControl>
                         <SelectTrigger disabled={!selectedProductTypeId}>
@@ -192,7 +196,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {category.map((item) => (
+                        {category?.map((item) => (
                           <SelectItem key={item.id} value={item.id}>
                             {item.name}
                           </SelectItem>
@@ -204,26 +208,22 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                 )}
               />
               <div className='col-span-2'>
-                <CkEditorCustom />
+                <FormField
+                  control={form.control}
+                  name='description'
+                  render={({ field }) => (
+                    <FormItem className='w-full *:min-w-full'>
+                      <FormLabel>Mô tả</FormLabel>
+                      <FormControl>
+                        <CkEditorCustom field={field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
-            {/* <FormField
-              control={form.control}
-              name='description'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mô tả</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder='Nhập mô tả gian hàng'
-                      className='resize-none'
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
+            ss
             <div className='flex gap-3'>
               <Button
                 type='submit'

@@ -7,7 +7,18 @@ export const ACCEPTED_IMAGE_TYPES = [
   'image/png',
   'image/webp'
 ];
-
+export const FILE_IMAGE_TYPES = [
+  'text/csv',
+  'application/gzip',
+  'application/x-tar',
+  'text/plain',
+  'application/x-7z-compressed',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/zip',
+  'application/x-zip-compressed',
+  'application/vnd.rar'
+];
 export const ShopSchema = z.object({
   image: z
     .any()

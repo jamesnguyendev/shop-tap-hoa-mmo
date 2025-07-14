@@ -14,6 +14,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { DataTableSkeleton } from '@/components/ui/table/data-table-skeleton';
+import { FILE_IMAGE_TYPES } from '@/schemas/shop/shop-schema';
 import {
   getUploadedFiles,
   updateFileProduct,
@@ -29,18 +30,6 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 const MAX_FILE_SIZE = 5000000;
-const ACCEPTED_IMAGE_TYPES = [
-  'text/csv',
-  'application/gzip',
-  'application/x-tar',
-  'text/plain',
-  'application/x-7z-compressed',
-  'application/vnd.ms-excel',
-  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-  'application/zip',
-  'application/x-zip-compressed',
-  'application/vnd.rar'
-];
 
 export const SchemaImage = z.object({
   image: z
@@ -48,7 +37,7 @@ export const SchemaImage = z.object({
     .refine((files) => files?.length === 1, 'File là bắt buộc.')
     .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, 'Tệp tối đa là 50MB.')
     .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      (files) => FILE_IMAGE_TYPES.includes(files?.[0]?.type),
       '.csv là định dạng cho phép.'
     )
 });

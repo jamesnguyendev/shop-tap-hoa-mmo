@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -23,6 +25,7 @@ import {
   DrawerTrigger
 } from '@/components/ui/drawer';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useShopStore } from '@/store/shop/useShopStore';
 
 const variantSchema = z.object({
   name: z.string().min(2, {
@@ -47,6 +50,7 @@ const CreateVariant = ({
   pageTitle: string;
 }) => {
   const { data: session } = useSession();
+  const { reloadShop } = useShopStore();
   const SKU = `sku-${Math.random().toString(36).slice(2, 10)}`;
 
   const isMobile = useIsMobile();
@@ -74,9 +78,9 @@ const CreateVariant = ({
 
     try {
       await createVariant(id, data, session?.accessToken);
+      reloadShop();
       form.reset();
       toast.success('Tạo sản phẩm thành công');
-      window.location.reload();
     } catch (error) {
       console.log('req', error);
       toast.error('Tạo sản phẩm thất bại');

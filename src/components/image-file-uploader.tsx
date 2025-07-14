@@ -92,12 +92,12 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean;
 }
 
-export function FileUploader(props: FileUploaderProps) {
+export function ImageFileUploader(props: FileUploaderProps) {
   const {
     value: valueProp,
     onValueChange,
     onUpload,
-    accept = { 'text/*': [] },
+    accept = { 'image/*': [] },
     progresses,
     maxSize = 1024 * 1024 * 2,
     maxFiles = 1,
@@ -289,8 +289,7 @@ function FileCard({ file, progress, onRemove }: FileCardProps) {
       <div className='flex flex-1 space-x-4'>
         {isFileWithPreview(file) ? (
           <Image
-            src={'/images/csv.png'}
-            // src={file.preview || '/images/csv.png'}
+            src={file.preview}
             alt={file.name}
             width={38}
             height={38}

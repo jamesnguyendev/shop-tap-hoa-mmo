@@ -1,6 +1,5 @@
 'use client';
 
-import { FileUploader } from '@/components/file-uploader';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -37,6 +36,7 @@ import ShopForm from '../../forms/shop-form';
 import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
 import CkEditorCustom from '@/features/ckeditor/CkEditor';
 import { updateShopDetailService } from '@/services/shop/shop-detail-service';
+import { ImageFileUploader } from '@/components/image-file-uploader';
 
 const ShopInfoTab = ({
   initialData,
@@ -63,7 +63,7 @@ const ShopInfoTab = ({
       }
     };
     fetchProductTypes();
-  }, [session?.accessToken]);
+  }, [session?.accessToken, initialData]);
 
   useEffect(() => {
     const productType = selectedProductTypeId
@@ -156,7 +156,7 @@ const ShopInfoTab = ({
                     <FormItem className='w-full'>
                       <FormLabel>Hình ảnh</FormLabel>
                       <FormControl>
-                        <FileUploader
+                        <ImageFileUploader
                           value={field.value}
                           onValueChange={field.onChange}
                           maxFiles={4}
@@ -198,7 +198,7 @@ const ShopInfoTab = ({
                           field.onChange(value);
                           setSelectedProductTypeId(value);
                         }}
-                        value={field.value}
+                        value={field?.value}
                         disabled
                       >
                         <FormControl>
@@ -208,8 +208,8 @@ const ShopInfoTab = ({
                         </FormControl>
                         <SelectContent>
                           {productType.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>
-                              {item.name}
+                            <SelectItem key={item?.id} value={item?.id}>
+                              {item?.name}
                             </SelectItem>
                           ))}
                         </SelectContent>

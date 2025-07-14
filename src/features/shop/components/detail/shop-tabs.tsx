@@ -4,8 +4,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ShopInfoTab from './item-tabs/shop-info-tab';
 import ShopInfoVariantTab from './shop-variant-tabs';
 import { Card } from '@/components/ui/card';
+import { useShopStore } from '@/store/shop/useShopStore';
+import { useEffect } from 'react';
 
 const ShopTabs = ({ data }: { data: any }) => {
+  const setShop = useShopStore((s) => s.setShop);
+
+  useEffect(() => {
+    setShop(data);
+  }, [data, setShop]);
+
   return (
     <div className='flex w-full flex-col gap-6 lg:px-5'>
       <Tabs
@@ -20,7 +28,7 @@ const ShopTabs = ({ data }: { data: any }) => {
           <TabsTrigger value='t'>Thông tin khác</TabsTrigger>
         </TabsList>
         <ShopInfoTab initialData={data} pageTitle='Thông tin cơ bản' />
-        <ShopInfoVariantTab data={data} />
+        <ShopInfoVariantTab />
         <TabsContent value='t'>
           <Card className='px-5'>Thông tin khác</Card>
         </TabsContent>

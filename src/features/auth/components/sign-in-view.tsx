@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export const metadata: Metadata = {
   title: 'Xác thực | Đăng nhập',
@@ -65,6 +66,7 @@ export default function SignInViewPage() {
 
     if (req?.ok) {
       toast.success('Đăng nhập thành công!');
+      Cookies.set('loginTime', Date.now().toString(), { path: '/' });
       redirect('/');
     } else {
       toast.error('Đăng nhập không thành công');

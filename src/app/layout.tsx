@@ -9,7 +9,6 @@ import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import './globals.css';
 import './theme.css';
 import SessionProviderWrapper from '@/components/layout/session-provider-wrapper';
-import SessionWatcher from '@/components/layout/SessionWatcher';
 import Script from 'next/script';
 
 const META_THEME_COLORS = {
@@ -57,7 +56,6 @@ export default async function RootLayout({
       >
         <SessionProviderWrapper>
           <NextTopLoader showSpinner={false} color='var(--primary)' />
-          <SessionWatcher />
           <NuqsAdapter>
             <ThemeProvider
               attribute='class'

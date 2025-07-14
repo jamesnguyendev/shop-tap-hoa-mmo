@@ -182,7 +182,7 @@ export function FileUploader(props: FileUploaderProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isDisabled = disabled || (files?.length ?? 0) >= maxFiles;
+  // const isDisabled = disabled || (files?.length ?? 0) >= maxFiles; ==> Original
 
   return (
     <div className='relative flex flex-col gap-6 overflow-hidden'>
@@ -192,7 +192,8 @@ export function FileUploader(props: FileUploaderProps) {
         maxSize={maxSize}
         maxFiles={maxFiles}
         multiple={maxFiles > 1 || multiple}
-        disabled={isDisabled}
+        // disabled={isDisabled}
+        disabled={disabled}
       >
         {({ getRootProps, getInputProps, isDragActive }) => (
           <div
@@ -201,7 +202,8 @@ export function FileUploader(props: FileUploaderProps) {
               'group border-muted-foreground/25 hover:bg-muted/25 relative grid h-52 w-full cursor-pointer place-items-center rounded-lg border-2 border-dashed px-5 py-2.5 text-center transition',
               'ring-offset-background focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden',
               isDragActive && 'border-muted-foreground/50',
-              isDisabled && 'pointer-events-none opacity-60',
+              // isDisabled  ==> Original
+              disabled && 'pointer-events-none opacity-60',
               className
             )}
             {...dropzoneProps}
@@ -219,6 +221,19 @@ export function FileUploader(props: FileUploaderProps) {
                   Thả tệp vào đây
                 </p>
               </div>
+            ) : files?.length ? (
+              <ScrollArea className='h-fit w-full px-3'>
+                <div className='max-h-48 space-y-4'>
+                  {files?.map((file, index) => (
+                    <FileCard
+                      key={index}
+                      file={file}
+                      onRemove={() => onRemove(index)}
+                      progress={progresses?.[file.name]}
+                    />
+                  ))}
+                </div>
+              </ScrollArea>
             ) : (
               <div className='flex flex-col items-center justify-center gap-4 sm:px-5'>
                 <div className='rounded-full border border-dashed p-3'>
@@ -244,7 +259,7 @@ export function FileUploader(props: FileUploaderProps) {
           </div>
         )}
       </Dropzone>
-      {files?.length ? (
+      {/* {files?.length ? (
         <ScrollArea className='h-fit w-full px-3'>
           <div className='max-h-48 space-y-4'>
             {files?.map((file, index) => (
@@ -257,7 +272,7 @@ export function FileUploader(props: FileUploaderProps) {
             ))}
           </div>
         </ScrollArea>
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

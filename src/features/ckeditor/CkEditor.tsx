@@ -58,7 +58,6 @@ export default function CkEditorCustom({ field }: { field?: any }) {
   const editorContainerRef = useRef(null);
   const editorRef = useRef(null);
   const [isLayoutReady, setIsLayoutReady] = useState(false);
-  // console.log(field);
 
   useEffect(() => {
     setIsLayoutReady(true);

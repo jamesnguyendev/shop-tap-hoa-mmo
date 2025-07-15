@@ -54,11 +54,12 @@ const CreateVariant = ({
   const SKU = `sku-${Math.random().toString(36).slice(2, 10)}`;
 
   const isMobile = useIsMobile();
+
   const defaultValues: DataPros | null = {
     sku: '',
     name: '',
     price: 1000,
-    quantity: 1
+    quantity: 0
   };
 
   const form = useForm<z.infer<typeof variantSchema>>({
@@ -103,7 +104,7 @@ const CreateVariant = ({
                 onSubmit={form.handleSubmit(onSubmit)}
                 className='space-y-8'
               >
-                <div className='mb-5 grid grid-cols-1 gap-3 md:grid-cols-2'>
+                <div className='mb-5 grid grid-cols-1 gap-3'>
                   <FormField
                     control={form.control}
                     name='name'
@@ -125,12 +126,23 @@ const CreateVariant = ({
                         <FormLabel>Giá</FormLabel>
                         <FormControl>
                           <Input
-                            type='number'
-                            step='1000'
+                            type='text'
                             placeholder='Nhập giá'
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(e.target.valueAsNumber)
+                            name={field.name}
+                            ref={field.ref}
+                            onBlur={field.onBlur}
+                            onChange={(e) => {
+                              const raw = e.target.value.replace(/\D/g, '');
+                              const number = Number(raw);
+
+                              if (number <= 100_000_000) {
+                                field.onChange(number);
+                              }
+                            }}
+                            value={
+                              field.value
+                                ? Number(field.value).toLocaleString('vi-VN')
+                                : ''
                             }
                           />
                         </FormControl>

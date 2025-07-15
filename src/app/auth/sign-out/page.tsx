@@ -12,16 +12,16 @@ export default function SignOutPage() {
 
     const handleAutoLogout = () => {
       if (session.provider === 'keycloak') {
-        handleLogout(session); // 👈 Gọi logout qua Keycloak
+        handleLogout(session);
       } else {
-        signOut({ callbackUrl: '/auth/sign-in' }); // 👈 Gọi logout NextAuth
+        signOut({ callbackUrl: '/auth/sign-in' });
       }
 
-      localStorage.removeItem('loginTime'); // ✅ Xoá loginTime
+      localStorage.removeItem('loginTime');
     };
 
     handleAutoLogout();
   }, [session]);
 
-  return <p>Đang đăng xuất...</p>;
+  return <p className='px-5'>Đang đăng xuất...</p>;
 }

@@ -90,8 +90,10 @@ const ShopInfoTab = ({
     name: initialData?.name || '',
     category: initialData?.category?.id || '',
     productType: initialData?.productType?.id || '',
-    seoTitle: '',
-    seoDescription: '',
+    seoTitle: initialData?.name || '',
+    seoDescription:
+      initialData?.description ||
+      `Sản phẩm ${initialData?.name}: Danh mục ${initialData?.category.name}, loại ${initialData?.productType.name} `,
     description: initialData?.description || '',
     image: undefined
   };
@@ -113,7 +115,7 @@ const ShopInfoTab = ({
       productType: values.productType,
       description: values.description,
       seoTitle: values.name,
-      seoDescription: values.name,
+      seoDescription: `Sản phẩm ${initialData?.name}: Danh mục ${initialData?.category.name}, loại ${initialData?.productType.name}, mô tả sản phẩm `,
       metadata: [
         {
           key: 'Product Name',

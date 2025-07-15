@@ -32,9 +32,8 @@ import {
 import { createProduct } from '@/services/product/product-service';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { ShopSchema } from '@/schemas/shop/shop-schema';
+import { ShopSchemaWithForm } from '@/schemas/shop/shop-schema';
 import { getProductTypes, productTypeItem } from '@/services/shop/shop-service';
-import CkEditorCustom from '@/features/ckeditor/CkEditor';
 
 export default function ShopForm({ pageTitle }: { pageTitle: string }) {
   const { data: session } = useSession();
@@ -85,24 +84,23 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
     image: undefined
   };
 
-  type ShopFormValues = z.infer<typeof ShopSchema>;
+  type ShopFormValues = z.infer<typeof ShopSchemaWithForm>;
 
   const form = useForm<ShopFormValues>({
-    resolver: zodResolver(ShopSchema),
+    resolver: zodResolver(ShopSchemaWithForm),
     values: defaultValues
   });
 
   const isSubmitLoading = form.formState.isSubmitting;
 
-  async function onSubmit(values: z.infer<typeof ShopSchema>) {
+  async function onSubmit(values: z.infer<typeof ShopSchemaWithForm>) {
     const payLoad = {
       name: values.name || '',
       slug: stringToSlug(values.name) || '',
       category: values.category || '',
       productType: values.productType || '',
-      description: values.description || '',
       seoTitle: values.name || '',
-      seoDescription: values.description || '',
+      seoDescription: values.name || '',
       metadata: [
         {
           key: 'Product Name',
@@ -118,6 +116,7 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
         `/dashboard/shop/${(res as { product: { id: string } }).product.id}`
       );
       form.reset();
+      console.log(payLoad);
     } catch (error) {
       console.error('  Error:', JSON.stringify(error, null, 2));
       toast.error('Thêm thất bại');
@@ -207,21 +206,6 @@ export default function ShopForm({ pageTitle }: { pageTitle: string }) {
                   </FormItem>
                 )}
               />
-              <div className='col-span-2'>
-                <FormField
-                  control={form.control}
-                  name='description'
-                  render={({ field }) => (
-                    <FormItem className='w-full *:min-w-full'>
-                      <FormLabel>Mô tả</FormLabel>
-                      <FormControl>
-                        <CkEditorCustom field={field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
             </div>
             <div className='flex gap-3'>
               <Button
